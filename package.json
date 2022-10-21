@@ -5,6 +5,7 @@
   "main": "index.ts",
   "module": "index.ts",
   "types": "index.d.ts",
+  "type": "module",
   "engines": {
     "node": ">=0.11"
   },
