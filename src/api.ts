@@ -2,51 +2,11 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { BatchHttpLink } from "@apollo/client/link/batch-http"; 
 import { TypedDocumentNode, gql } from '@apollo/client';
 
-export type IntlMessage = { key:string, value:string }
 export type ApiQueryOptions = { variables?: any | any[], preview?: boolean}
 
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
 const GRAPHQL_API_TOKEN = process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN
-
-export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options? : ApiQueryOptions) : Promise<any> => {
-  
-  const { variables, preview = false} = options || {}
-
-  if(query === null) 
-    throw "Invalid query! Query is empty"
-
-  if(!GRAPHQL_API_TOKEN) 
-    throw "No graphql api token exists in .env"
-  
-  client.setLink(preview ? previewLink : link)
-
-  try{
-    
-    const batch = (Array.isArray(query) ? query : [query]).map((q, idx) => {
-      const vars = Array.isArray(variables) && variables.length > idx -1 ? variables[idx] : variables || {}
-      return client.query({query:q, variables:vars})
-    })
-  
-    const data = await Promise.all(batch)
-    
-    const errorMessages = []
-    data.filter(({errors}) => errors).forEach(({errors}) => {
-      errors.map(e => e.message).forEach(({message}) => errorMessages.push(message))
-    })
-    
-    if(errorMessages.length)
-      throw new Error(errorMessages.join('. '))
-    
-    let result = {}
-    data.forEach((res) => result = {...result, ...res?.data})
-    return result
-
-  }catch(err){
-    throw err
-  }
-}
-
 
 const loggingFetch = async (input: RequestInfo, init?: RequestInit): Promise<Response>  => {
   
@@ -96,7 +56,40 @@ export const SEOQuery = (schema: string) : TypedDocumentNode => {
   return gql(q) as TypedDocumentNode
 }
 
-export const datoError = (err : Error) =>{
-  console.log(err)
-  return err.message || err
+export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options? : ApiQueryOptions) : Promise<any> => {
+  
+  const { variables, preview = false} = options || {}
+
+  if(query === null) 
+    throw new Error('Invalid query! Query is empty')
+
+  if(!GRAPHQL_API_TOKEN) 
+    throw new Error('No graphql api token exists in .env')
+  
+  try{
+    
+    client.setLink(preview ? previewLink : link)
+
+    const batch = (Array.isArray(query) ? query : [query]).map((q, idx) => {
+      const vars = Array.isArray(variables) && variables.length > idx -1 ? variables[idx] : variables || {}
+      return client.query({query:q, variables:vars})
+    })
+  
+    const data = await Promise.all(batch)
+    
+    const errorMessages = []
+    data.filter(({errors}) => errors).forEach(({errors}) => {
+      errors.map(e => e.message).forEach(({message}) => errorMessages.push(message))
+    })
+    
+    if(errorMessages.length)
+      throw new Error(errorMessages.join('. '))
+    
+    let result = {}
+    data.forEach((res) => result = {...result, ...res?.data})
+    return result
+
+  }catch(err){
+    throw err
+  }
 }
