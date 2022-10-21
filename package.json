@@ -1,0 +1,27 @@
+{
+  "name": "dato-nextjs-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.7.0",
+    "@types/node": "18.11.3",
+    "markdown-truncate": "^1.0.4",
+    "next": "^12.3.1",
+    "next-seo": "^5.8.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.3",
+    "remark-breaks": "^3.0.2",
+    "remark-gfm": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6"
+  }
+}
