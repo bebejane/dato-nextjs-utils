@@ -14,10 +14,10 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   const { variables, preview = false} = options || {}
 
   if(query === null) 
-    throw "Invalid Query!"
+    throw "Invalid query! Query is empty"
 
   if(!GRAPHQL_API_TOKEN) 
-    throw "No api token in .env.local"
+    throw "No graphql api token exists in .env"
   
   client.setLink(preview ? previewLink : link)
 
@@ -29,10 +29,14 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
     })
   
     const data = await Promise.all(batch)
-    const errors = data.filter(({errors}) => errors).map(({errors})=> errors?.reduce((curr, acc) => curr + '. ' + acc.message, ''))
     
-    if(errors.length)
-      throw new Error(errors.join('. '))
+    const errorMessages = []
+    data.filter(({errors}) => errors).forEach(({errors}) => {
+      errors.map(e => e.message).forEach(({message}) => errorMessages.push(message))
+    })
+    
+    if(errorMessages.length)
+      throw new Error(errorMessages.join('. '))
     
     let result = {}
     data.forEach((res) => result = {...result, ...res?.data})

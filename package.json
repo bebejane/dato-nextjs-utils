@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.7.0",
+    "@datocms/cma-client-node": "1.1.8",
     "@types/node": "18.11.3",
     "markdown-truncate": "^1.0.4",
     "next": "^12.3.1",

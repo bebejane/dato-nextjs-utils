@@ -54,10 +54,7 @@ export default function withRevalidate(callback:(record:any, revalidate : (paths
           throw 'Nothing to revalidate';
 
         console.log('revalidating paths', paths)
-        for (let i = 0; i < paths.length; i++){
-          console.log('revalidate', paths[i])
-          await res.revalidate(paths[i])
-        }
+        await Promise.all(paths.map(p => res.revalidate(p)))
         console.log('revalidating done!')
         return res.json({ revalidated: true, paths })
       }catch(err){
