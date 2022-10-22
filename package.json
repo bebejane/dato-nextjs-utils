@@ -2,24 +2,27 @@
   "name": "dato-nextjs-utils",
   "version": "1.0.3",
   "description": "Utils for bebe",
-  "main": "index.mjs",
-  "module": "index.mjs",
+  "main": "./dist/dato-nextjs-utils.cjs",
+  "module": "./dist/dato-nextjs-utils.module.mjs",
+  "source": "index.js",
+  "unpkg": "./dist/dato-nextjs-utils.umd.js",
   "types": "index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-        "types": "./index.d.ts",
-        "import": "./index.mjs",
-        "default": "./index.mjs"
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "default": "./index.mjs"
     },
     "./package.json": "./package.json"
-},
+  },
   "engines": {
     "node": ">=0.11"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm-dts generate"
+    "build": "microbundle",
+    "dev": "microbundle watch"
   },
   "author": "Bebe Jane",
   "license": "ISC",
@@ -40,6 +43,7 @@
   "devDependencies": {
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "microbundle": "^0.15.1",
     "npm-dts": "^1.3.12"
   }
 }
