@@ -15,7 +15,7 @@
     "incremental": true,
     "esModuleInterop": true,
     "module": "ESNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -25,8 +25,7 @@
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx", 
+    "index.d.ts",
     "index.ts"
   ],
   "exclude": [
