@@ -1,7 +1,7 @@
 import { apiQuery, SEOQuery } from "../api.js";
 import { GetStaticProps } from 'next'
-import { gql } from "@apollo/client";
-import type { TypedDocumentNode } from "@apollo/client";
+import { gql } from "@apollo/client/core";
+import type { TypedDocumentNode } from "@apollo/client/core/types.js";
 
 export default function withGlobalProps(opt: any , callback : Function) : GetStaticProps {
   
