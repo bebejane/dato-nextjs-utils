@@ -2,20 +2,12 @@
   "name": "dato-nextjs-utils",
   "version": "1.0.3",
   "description": "Utils for bebe",
+  "source": "index.js",
   "main": "./dist/dato-nextjs-utils.cjs",
   "module": "./dist/dato-nextjs-utils.module.mjs",
-  "source": "index.js",
   "unpkg": "./dist/dato-nextjs-utils.umd.js",
-  "types": "index.d.ts",
+  "types": "./index.d.ts",
   "type": "module",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./index.mjs",
-      "default": "./index.mjs"
-    },
-    "./package.json": "./package.json"
-  },
   "engines": {
     "node": ">=0.11"
   },
