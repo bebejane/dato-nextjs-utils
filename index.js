@@ -1,7 +1,7 @@
 import * as utils  from './src/utils'
-import { apiQuery } from './src/api'
+import { apiQuery, SEOQuery } from './src/api'
 
-export { utils, apiQuery }
+export { utils, apiQuery, SEOQuery }
 export { default as usePreviousRoute } from './src/hooks/usePreviousRoute'
 export { default as useScrollInfo} from './src/hooks/useScrollInfo'
 export { default as useTransitionFix } from './src/hooks/useTransitionFix'

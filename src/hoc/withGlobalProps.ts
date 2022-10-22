@@ -1,11 +1,12 @@
 import { apiQuery, SEOQuery } from "../api";
 import { GetStaticProps } from 'next'
+import { gql } from "@apollo/client";
 import type { TypedDocumentNode } from "@apollo/client";
 
 export default function withGlobalProps(opt: any , callback : Function) : GetStaticProps {
   
   const revalidate : number = parseInt(process.env.REVALIDATE_TIME)
-  const queries: TypedDocumentNode[] = []
+  const queries: TypedDocumentNode[] = [GlobalQuery]
   
   if(opt.query) 
     queries.push(opt.query)
@@ -23,3 +24,42 @@ export default function withGlobalProps(opt: any , callback : Function) : GetSta
       return { props:{...props}, context, revalidate};
   }
 }
+
+const GlobalQuery = gql`
+  site: _site {
+    favicon: faviconMetaTags {
+    attributes
+    content
+    tag
+  }
+  globalSeo {
+    facebookPageUrl
+    siteName
+    titleSuffix
+    twitterAccount
+    fallbackSeo {
+      description
+      title
+      twitterCard
+      image {
+        id
+        title
+        width
+        responsiveImage {
+          alt
+          aspectRatio
+          base64
+          bgColor
+          height
+          sizes
+          src
+          srcSet
+          webpSrcSet
+          title
+          width
+        }
+      }
+    }
+  }
+}
+`
