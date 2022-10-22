@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "microbundle && git add . && git commit -m \"updatez\"",
+    "build": "microbundle && git add . && git commit -m \"updatez\" && git push",
     "dev": "microbundle watch"
   },
   "author": "Bebe Jane",
