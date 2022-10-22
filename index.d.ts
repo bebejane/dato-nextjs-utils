@@ -8,4 +8,5 @@ export { default as Markdown } from "./src/dato/components/Markdown";
 export { default as DatoSEO } from "./src/dato/components/DatoSEO";
 import * as utils from "./src/utils";
 import { apiQuery } from "./src/api";
-export { utils, apiQuery };
+import { SEOQuery } from "./src/api";
+export { utils, apiQuery, SEOQuery };
