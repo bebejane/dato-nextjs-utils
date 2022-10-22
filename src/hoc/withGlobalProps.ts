@@ -26,37 +26,39 @@ export default function withGlobalProps(opt: any , callback : Function) : GetSta
 }
 
 const GlobalQuery = gql`
-  site: _site {
-    favicon: faviconMetaTags {
-    attributes
-    content
-    tag
-  }
-  globalSeo {
-    facebookPageUrl
-    siteName
-    titleSuffix
-    twitterAccount
-    fallbackSeo {
-      description
-      title
-      twitterCard
-      image {
-        id
+  query Global {
+    site: _site {
+      favicon: faviconMetaTags {
+      attributes
+      content
+      tag
+    }
+    globalSeo {
+      facebookPageUrl
+      siteName
+      titleSuffix
+      twitterAccount
+      fallbackSeo {
+        description
         title
-        width
-        responsiveImage {
-          alt
-          aspectRatio
-          base64
-          bgColor
-          height
-          sizes
-          src
-          srcSet
-          webpSrcSet
+        twitterCard
+        image {
+          id
           title
           width
+          responsiveImage {
+            alt
+            aspectRatio
+            base64
+            bgColor
+            height
+            sizes
+            src
+            srcSet
+            webpSrcSet
+            title
+            width
+          }
         }
       }
     }
