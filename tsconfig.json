@@ -27,7 +27,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx", 
-    "index.js"
+    "index.ts"
   ],
   "exclude": [
     "node_modules"
