@@ -1,4 +1,4 @@
-import Router from "next/router.js";
+import Router from "next/router";
 import { useCallback, useEffect, useRef } from "react";
 
 const useTransitionFix = () => {
