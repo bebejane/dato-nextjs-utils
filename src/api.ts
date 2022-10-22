@@ -77,9 +77,9 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   
     const data = await Promise.all(batch)
     
-    const errorMessages = []
+    const errorMessages:string[] = []
     data.filter(({errors}) => errors).forEach(({errors}) => {
-      errors.map(e => e.message).forEach(({message}) => errorMessages.push(message))
+      errors.map(e => e.message).forEach((message) => errorMessages.push(message))
     })
     
     if(errorMessages.length)
