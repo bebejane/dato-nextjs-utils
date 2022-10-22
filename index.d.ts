@@ -1,17 +1,4 @@
-declare module 'dato-nextjs-utils/index' {
-  import * as utils from 'dato-nextjs-utils/src/utils';
-  import { apiQuery } from 'dato-nextjs-utils/src/api';
-  export { utils, apiQuery };
-  export { default as usePreviousRoute } from 'dato-nextjs-utils/src/hooks/usePreviousRoute';
-  export { default as useScrollInfo } from 'dato-nextjs-utils/src/hooks/useScrollInfo';
-  export { default as useTransitionFix } from 'dato-nextjs-utils/src/hooks/useTransitionFix';
-  export { default as withGlobalProps } from 'dato-nextjs-utils/src/hoc/withGlobalProps';
-  export { default as withRevalidate } from 'dato-nextjs-utils/src/dato/hoc/withRevalidate';
-  export { default as Markdown } from 'dato-nextjs-utils/src/dato/components/Markdown';
-  export { default as DatoSEO } from 'dato-nextjs-utils/src/dato/components/DatoSEO';
-
-}
-declare module 'dato-nextjs-utils/src/api' {
+declare module 'dato-nextjs-utils/api' {
   import { ApolloClient } from '@apollo/client';
   import { TypedDocumentNode } from '@apollo/client';
   export type ApiQueryOptions = {
@@ -23,7 +10,7 @@ declare module 'dato-nextjs-utils/src/api' {
   export const apiQuery: (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions) => Promise<any>;
 
 }
-declare module 'dato-nextjs-utils/src/dato/components/DatoSEO' {
+declare module 'dato-nextjs-utils/dato/components/DatoSEO' {
   /// <reference types="react" />
   const DatoSEO: ({ seo, site, pathname, title, subtitle, description, noindex }: any) => JSX.Element;
   const DefaultDatoSEO: ({ site, url }: {
@@ -34,7 +21,7 @@ declare module 'dato-nextjs-utils/src/dato/components/DatoSEO' {
   export default DatoSEO;
 
 }
-declare module 'dato-nextjs-utils/src/dato/components/Markdown' {
+declare module 'dato-nextjs-utils/dato/components/Markdown' {
   /// <reference types="react" />
   type MarkdownProps = {
       children?: string;
@@ -46,13 +33,13 @@ declare module 'dato-nextjs-utils/src/dato/components/Markdown' {
   export default Markdown;
 
 }
-declare module 'dato-nextjs-utils/src/dato/hoc/withRevalidate' {
+declare module 'dato-nextjs-utils/dato/hoc/withRevalidate' {
   import type { NextApiRequest, NextApiResponse } from 'next';
   export const basicAuth: (req: NextApiRequest) => boolean;
   export default function withRevalidate(callback: (record: any, revalidate: (paths: string[]) => Promise<void>) => Promise<void>): (req: NextApiRequest, res: NextApiResponse) => void;
 
 }
-declare module 'dato-nextjs-utils/src/dato/hooks/useApiQuery' {
+declare module 'dato-nextjs-utils/dato/hooks/useApiQuery' {
   import { TypedDocumentNode } from '@apollo/client';
   export type UseApiQueryProps = {
       variables?: any;
@@ -81,22 +68,22 @@ declare module 'dato-nextjs-utils/src/dato/hooks/useApiQuery' {
   export default useApiQuery;
 
 }
-declare module 'dato-nextjs-utils/src/hoc/withGlobalProps' {
+declare module 'dato-nextjs-utils/hoc/withGlobalProps' {
   import { GetStaticProps } from 'next';
   export default function withGlobalProps(opt: any, callback: Function): GetStaticProps;
 
 }
-declare module 'dato-nextjs-utils/src/hoc/withPreview' {
+declare module 'dato-nextjs-utils/hoc/withPreview' {
   import type { NextApiRequest, NextApiResponse } from "next";
   export default function withPreview(req: NextApiRequest, res: NextApiResponse): Promise<void>;
 
 }
-declare module 'dato-nextjs-utils/src/hooks/usePreviousRoute' {
+declare module 'dato-nextjs-utils/hooks/usePreviousRoute' {
   const usePreviousRoute: () => string;
   export default usePreviousRoute;
 
 }
-declare module 'dato-nextjs-utils/src/hooks/useScrollInfo' {
+declare module 'dato-nextjs-utils/hooks/useScrollInfo' {
   export type ScrollInfo = {
       isScrolling: boolean;
       isPageTop: boolean;
@@ -111,12 +98,12 @@ declare module 'dato-nextjs-utils/src/hooks/useScrollInfo' {
   export default function useScrollInfo(pageBottomLimit?: number): ScrollInfo;
 
 }
-declare module 'dato-nextjs-utils/src/hooks/useTransitionFix' {
+declare module 'dato-nextjs-utils/hooks/useTransitionFix' {
   const useTransitionFix3: () => void;
   export default useTransitionFix3;
 
 }
-declare module 'dato-nextjs-utils/src/utils' {
+declare module 'dato-nextjs-utils/utils' {
   export const isServer: boolean;
 
 }
