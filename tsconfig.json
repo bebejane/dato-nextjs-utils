@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "ESNext",
+    "target": "ES6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -11,10 +11,10 @@
     "skipLibCheck": false,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports":true,
+    "allowSyntheticDefaultImports":false,
     "incremental": true,
     "esModuleInterop": true,
-    "module": "ESNext",
+    "module": "ES6",
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
