@@ -1,6 +1,6 @@
 import { TypedDocumentNode } from '@apollo/client';
 import { useEffect, useState, useCallback } from "react";
-import { apiQuery } from '../api';
+import { apiQuery } from '../../api';
 
 export type UseApiQueryProps = {
   variables?: any,
