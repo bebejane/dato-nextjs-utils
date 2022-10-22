@@ -2,6 +2,7 @@
   "name": "dato-nextjs-utils",
   "version": "1.0.3",
   "description": "Utils for bebe",
+  "main": "index.mjs",
   "module": "index.mjs",
   "types": "index.d.ts",
   "type": "module",
