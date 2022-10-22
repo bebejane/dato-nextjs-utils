@@ -1,6 +1,6 @@
 {
   "name": "dato-nextjs-utils",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Utils for bebe",
   "source": "index.ts",
   "main": "./dist/dato-nextjs-utils.cjs",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "microbundle && git add . && git commit -m \"updatez\" && git push",
+    "build": "npm version patch --force && microbundle && git add . && git commit -m \"updatez\" && git push",
     "dev": "microbundle watch"
   },
   "author": "Bebe Jane",
