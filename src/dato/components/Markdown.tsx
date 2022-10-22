@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import gfm from 'remark-gfm'
-import Link from "next/link";
+import Link from "next/link.js";
 import truncateMarkdown  from 'markdown-truncate'
 import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
