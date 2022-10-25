@@ -1,2 +1,3 @@
 import DatoSEO from "./DatoSEO.jsx";
-export { DatoSEO };
+import DatoMarkdown from "./DatoMarkdown.jsx";
+export { DatoSEO, DatoMarkdown };
