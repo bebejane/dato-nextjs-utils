@@ -1,4 +1,4 @@
-import { NextSeo, DefaultSeo } from 'next-seo/lib/next-seo.modern.js';
+import { NextSeo, DefaultSeo } from 'next-seo/lib/next-seo.module.js';
 
 const DatoSEO = ({seo = {}, site = {}, pathname, title, subtitle, description, noindex = false} : any) => {
   
