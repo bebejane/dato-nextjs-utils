@@ -1,6 +1,6 @@
 {
   "name": "dato-nextjs-utils",
-  "version": "1.0.61",
+  "version": "1.0.62",
   "description": "Utils for bebe",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
@@ -20,10 +20,10 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@datocms/cma-client": "^1.1.8",
     "@types/node": "18.11.3",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "@datocms/cma-client-node": "^1.1.8",
     "markdown-truncate": "^1.0.4",
     "next": "^12.3.1",
     "next-seo": "^5.8.0",
