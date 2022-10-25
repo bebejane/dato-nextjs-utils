@@ -1,4 +1,4 @@
-/// <reference types="react" resolution-mode="require"/>
+/// <reference types="react" />
 declare type MarkdownProps = {
     children?: string;
     truncate?: number;
