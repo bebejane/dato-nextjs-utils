@@ -1,3 +1,4 @@
+import React from 'react';
 import { NextSeo, DefaultSeo } from 'next-seo';
 
 const DatoSEO = ({seo = {}, site = {}, pathname, title, subtitle, description, noindex = false} : any) => {
