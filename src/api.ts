@@ -1,7 +1,7 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client/core/core.cjs';
+import { ApolloClient, InMemoryCache } from '@apollo/client/core';
 import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js"; 
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
-import { gql } from "@apollo/client/core";
+import { gql } from "@apollo/client/core/index.js";
 
 export type ApiQueryOptions = { variables?: any | any[], preview?: boolean}
 
