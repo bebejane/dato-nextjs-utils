@@ -2,7 +2,7 @@ import ReactMarkdown from "react-markdown";
 import gfm from 'remark-gfm'
 import Link from "next/link.js";
 import truncateMarkdown  from 'markdown-truncate'
-import remarkBreaks from 'remark-breaks'
+//import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
 
 type MarkdownProps = {
@@ -28,17 +28,19 @@ const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownPr
   
   return (
     <ReactMarkdown 
-      remarkPlugins={[gfm,remarkBreaks]} 
+      //remarkPlugins={[gfm,remarkBreaks]} 
       className={className}
       children={content}
-      /*components={{
+      /*
+      components={{
         a: ({ children, href } : AnchorProp) => 
           <Link scroll={false} href={href} prefetch={false}>
             <a>{children[0]}</a>
           </Link>
       }}
       */
-    />
+     />
+      
   )
 }
 
