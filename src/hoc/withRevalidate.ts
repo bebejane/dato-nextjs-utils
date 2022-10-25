@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { buildClient } from '@datocms/cma-client-node';
+import { buildClient } from '@datocms/cma-client';
 
 export const basicAuth = (req: NextApiRequest) => {
   
