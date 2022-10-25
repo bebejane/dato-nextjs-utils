@@ -1,6 +1,6 @@
 {
   "name": "dato-nextjs-utils",
-  "version": "1.0.119",
+  "version": "1.0.120",
   "description": "Utils for bebe",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm version patch --force && rm -rf ./dist && microbundle --jsx && git add . && git commit -m \"updatez\" && git push",
+    "build": "npm version patch --force && rm -rf ./dist && microbundle --jsx React.createElement && git add . && git commit -m \"updatez\" && git push",
     "dev": "microbundle watch"
   },
   "author": "Bebe Jane",
