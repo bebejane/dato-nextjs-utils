@@ -3,6 +3,7 @@
   "version": "1.0.41",
   "description": "Utils for bebe",
   "source": "./src/index.ts",
+  "main": "./dist/dato-nextjs-utils.modern.mjs",
   "types": "./src/index.d.ts",
   "type": "module",
   "exports": {
