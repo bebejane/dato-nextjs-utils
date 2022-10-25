@@ -20,8 +20,9 @@ const truncateSentances = (markdown, limit: number) => {
   return sentances.length >= limit  ? sentances.slice(0,limit).join(' ') +  '...' : markdown
 }
 
-const Markdown = ({ children , truncate, className, sentances } : MarkdownProps) => {
-  if(!children) return null
+const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownProps) => {
+  if(!children) 
+    return null
 
   const content = !truncate ? sentances ? truncateSentances(children, sentances) :  children : truncateMarkdown(children, {limit:truncate, ellipsis:true})
   
@@ -29,16 +30,12 @@ const Markdown = ({ children , truncate, className, sentances } : MarkdownProps)
     <ReactMarkdown 
       remarkPlugins={[gfm,remarkBreaks]} 
       className={className}
-      // eslint-disable-next-line react/no-children-prop
       children={content}
       components={{
         // @ts-ignore
         a: ({ children, href } : AnchorProp) => 
-          <Link 
-            scroll={false} 
-            href={href} 
-            prefetch={false}
-          >
+          // @ts-ignore
+          <Link scroll={false} href={href} prefetch={false}>
             <a>{children[0]}</a>
           </Link>
       }}
@@ -46,5 +43,5 @@ const Markdown = ({ children , truncate, className, sentances } : MarkdownProps)
   )
 }
 
-export default Markdown;
+export default DatoMarkdown;
 
