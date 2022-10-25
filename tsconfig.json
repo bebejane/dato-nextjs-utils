@@ -19,7 +19,6 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "outDir": "./dist",
-    "jsxFactory": "React.createElement",
     "paths": {
       "./src" : ["*"]
     }
