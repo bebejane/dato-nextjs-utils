@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import gfm from 'remark-gfm'
-import Link from "next/link.js";
+import Link from "next/link";
 import truncateMarkdown  from 'markdown-truncate'
 import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
@@ -12,7 +12,7 @@ type MarkdownProps = {
   sentances?:number
 }
 
-type AnchorProp = {children:[any], href: UrlObject }
+type AnchorProp = {children:any[], href: UrlObject }
 
 const truncateSentances = (markdown, limit: number) => {
   if(!markdown) return markdown
@@ -31,6 +31,12 @@ const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownPr
       remarkPlugins={[gfm,remarkBreaks]} 
       className={className}
       children={content as string}
+      components={{
+        'a': ({ children, href }) =>           
+          <Link scroll={false} href={href} prefetch={false}>
+            <a>{children[0]}</a>
+          </Link>
+        }}
      />
   )
 }
