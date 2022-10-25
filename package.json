@@ -1,14 +1,14 @@
 {
   "name": "dato-nextjs-utils",
-  "version": "1.0.43",
+  "version": "1.0.44",
   "description": "Utils for bebe",
   "source": "./src/index.ts",
-  "main": "./src/index.js",
+  "main": "./src/index.esm.js",
   "types": "./src/index.d.ts",
   "type": "module",
   "exports": {
-    "default": "./src/index.js",
-    "import": "./src/index.js"
+    "default": "./src/index.esm.js",
+    "import": "./src/index.esm.js"
   },
   "engines": {
     "node": ">=0.14"
