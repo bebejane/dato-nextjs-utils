@@ -1,3 +1,9 @@
-import React from "react";
-declare const _default: React.FunctionComponent<{}>;
-export default _default;
+/// <reference types="react" />
+declare type MarkdownProps = {
+    children: string;
+    truncate?: number;
+    className?: string;
+    sentances?: number;
+};
+declare const DatoMarkdown: ({ children, truncate, className, sentances }: MarkdownProps) => JSX.Element;
+export default DatoMarkdown;

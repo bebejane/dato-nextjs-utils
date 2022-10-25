@@ -7,7 +7,7 @@ import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
 
 type MarkdownProps = {
-  children?: string, 
+  children: string, 
   truncate?: number, 
   className?:string, 
   sentances?:number
@@ -44,5 +44,5 @@ const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownPr
   )
 } 
 
-export default DatoMarkdown as React.FunctionComponent;
+export default DatoMarkdown
 
