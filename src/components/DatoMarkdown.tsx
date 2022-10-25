@@ -31,14 +31,13 @@ const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownPr
       remarkPlugins={[gfm,remarkBreaks]} 
       className={className}
       children={content}
-      components={{
-        // @ts-ignore
+      /*components={{
         a: ({ children, href } : AnchorProp) => 
-          // @ts-ignore
           <Link scroll={false} href={href} prefetch={false}>
             <a>{children[0]}</a>
           </Link>
       }}
+      */
     />
   )
 }
