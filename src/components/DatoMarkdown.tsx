@@ -14,7 +14,7 @@ type MarkdownProps = {
 }
 
 type AnchorProp = {
-  children:any[], 
+  children: any[], 
   href: UrlObject 
 }
 
@@ -34,14 +34,12 @@ const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownPr
     <ReactMarkdown 
       remarkPlugins={[gfm,remarkBreaks]} 
       className={className}
-      children={content as string}
+      children={content}
+      /*
       components={{
-        //@ts-ignore
-        a: ({ children, href } : AnchorProp) =>        
-          <Link scroll={false} href={href}>
-            <a>{children[0]}</a>
-          </Link>
-        }}
+        a: ({ children, href } : AnchorProp) => <Link scroll={false} href={href}><a>{children[0]}</a></Link> 
+      }}
+      */
      />
   )
 } 
