@@ -1,7 +1,7 @@
-import DatoMarkdown from "./DatoMarkdown.jsx";
+//import DatoMarkdown from "./DatoMarkdown.jsx";
 import DatoSEO from "./DatoSEO.jsx";
 
 export {
-  DatoMarkdown,
+  //DatoMarkdown,
   DatoSEO
 }
