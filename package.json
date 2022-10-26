@@ -1,8 +1,11 @@
 {
   "name": "dato-nextjs-utils",
-  "version": "1.0.125",
+  "version": "1.0.126",
   "description": "Utils for bebe",
-  "source": "./src/index.ts",
+  "source": [
+    "./src/api/index.ts",
+    "./src/hoc/index.ts"
+  ],
   "types": "./dist/index.d.ts",
   "type": "module",
   "main": "./dist/index.cjs",
