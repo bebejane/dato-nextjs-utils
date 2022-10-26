@@ -2,13 +2,13 @@
   "name": "dato-nextjs-utils",
   "version": "1.0.129",
   "description": "Utils for bebe",
-  "types": "./dist/index.d.ts",
+  "types": "./index.d.ts",
   "type": "module",
-  "main": "./src/index.js",
-  "module": "./dist/index.modern.mjs",
+  "main": "./index.modern.mjs",
+  "module": "./index.modern.mjs",
   "exports": {
     "./components": {
-      "import": "./hooks/index.modern.mjs"
+      "import": "./components/index.modern.mjs"
     },
     "./hoc": {
       "import": "./hoc/index.modern.mjs"
