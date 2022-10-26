@@ -6,7 +6,8 @@ packages=(
 )
 
 rm -rf ${packages[@]}
-rm -rf index.*
+rm index.*
+rm *.d.ts
 
 echo Target cleared...
 
