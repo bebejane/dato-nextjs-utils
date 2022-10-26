@@ -18,6 +18,9 @@
     },
     "./api": {
       "import": "./api/index.modern.mjs"
+    },
+    ".": {
+      "import": "./index.modern.mjs"
     }
   },
   "engines": {
