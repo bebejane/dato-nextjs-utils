@@ -11,19 +11,18 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.modern.mjs",
   "exports": {
-    ".": "./dist/index.modern.mjs",
     "./components": "./dist/components.modern.mjs",
     "./hoc": "./dist/hoc.modern.mjs",
     "./hooks": "./dist/hoooks.modern.mjs",
     "./api": "./dist/api.modern.mjs"
-  },
-  "sideEffects": false,
+  }, 
   "engines": {
     "node": ">=0.16"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm version patch --force && rm -rf ./dist && microbundle --jsx React.createElement && git add . && git commit -m \"updatez\" && git push",
+    "deploy":"npm version patch --force && npm run build && git add . && git commit -m \"updatez\" && git push",
+    "build": "microbundle src/*.ts --jsx React.createElement",
     "dev": "microbundle watch"
   },
   "author": "Bebe Jane",

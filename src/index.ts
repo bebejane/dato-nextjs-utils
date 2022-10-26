@@ -1,4 +1,4 @@
-export * from './hoc/index.js'
-export * from './hooks/index.js'
+export * from './hoc.js'
+export * from './hooks.js'
 export * from './api/index.js'
-export * from './components/index.js'
+export * from './components.js'
