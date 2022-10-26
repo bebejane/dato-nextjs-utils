@@ -4,7 +4,7 @@
   "description": "Utils for bebe",
   "types": "./dist/index.d.ts",
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist",
   "module": "./dist/index.modern.mjs",
   "exports": {
     "./components": "./dist/components.modern.mjs",
