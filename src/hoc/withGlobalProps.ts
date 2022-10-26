@@ -1,4 +1,4 @@
-import { apiQuery, SEOQuery } from "../api.js";
+import { apiQuery, SEOQuery } from "../api/index.js";
 import { GetStaticProps } from 'next'
 import { gql } from "@apollo/client/core/core.cjs";
 import type { TypedDocumentNode } from "@apollo/client/core/types.js";
