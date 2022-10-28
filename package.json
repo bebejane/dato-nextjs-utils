@@ -1,6 +1,6 @@
 {
   "name": "dato-nextjs-utils",
-  "version": "1.0.140",
+  "version": "1.0.141",
   "description": "Utils for Bebe",
   "types": "./index.d.ts",
   "type": "module",
@@ -21,22 +21,6 @@
     },
     ".": {
       "import": "./index.modern.mjs"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "component": [
-        "components.d.ts"
-      ],
-      "hoc": [
-        "hoc.d.ts"
-      ],
-      "hooks": [
-        "hoooks.d.ts"
-      ],
-      ".": [
-        "index.d.ts"
-      ]
     }
   },
   "engines": {
