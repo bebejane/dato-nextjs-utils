@@ -7,7 +7,7 @@ import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
 
 type MarkdownProps = {
-  children: string, 
+  children: React.ReactNode | React.ReactNode[], 
   truncate?: number, 
   className?:string, 
   sentances?:number
@@ -28,7 +28,7 @@ const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownPr
   if(!children) 
     return null
 
-  const content: string = !truncate ? sentances ? truncateSentances(children, sentances) :  children : truncateMarkdown(children, {limit:truncate, ellipsis:true})
+  const content: string = !truncate ? sentances ? truncateSentances(children as string, sentances) :  children : truncateMarkdown(children, {limit:truncate, ellipsis:true})
   
   return (
     <ReactMarkdown 

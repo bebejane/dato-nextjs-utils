@@ -1,6 +1,6 @@
-/// <reference types="react" />
+import React from "react";
 declare type MarkdownProps = {
-    children: string;
+    children: React.ReactNode | React.ReactNode[];
     truncate?: number;
     className?: string;
     sentances?: number;
