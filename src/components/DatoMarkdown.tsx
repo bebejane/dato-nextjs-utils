@@ -7,7 +7,7 @@ import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
 
 type MarkdownProps = {
-  children: React.ReactNode | React.ReactNode[], 
+  children?: React.ReactNode, 
   truncate?: number, 
   className?:string, 
   sentances?:number
