@@ -6,7 +6,6 @@
   "type": "module",
   "main": "./index.modern.mjs",
   "module": "./index.modern.mjs",
-  "sideEffects":false,
   "exports": {
     "./components": {
       "import": "./components/index.modern.mjs"
