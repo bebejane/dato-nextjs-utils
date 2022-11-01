@@ -57,15 +57,15 @@ const useApiQuery = <T>(document : TypedDocumentNode, {variables, initialData, p
     
     setLoading(true)
     return apiQuery(document, {variables : vars || variables})
-    .then(res => {
-      const d = mergeData(res, data)
-      setData(d)
-      return d
-    })
-    .catch(err => setError(err))
-    .finally(()=> setLoading(false))
+      .then(res => {
+        const d = mergeData(res, data)
+        setData(d)
+        return d
+      })
+      .catch(err => setError(err))
+      .finally(()=> setLoading(false))
 
-  }, [document, variables, data])
+  }, [document, variables])
 
 	useEffect(()=>{
     if(!initialData)
