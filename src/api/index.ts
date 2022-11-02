@@ -34,12 +34,12 @@ const linkConfig = {
   batchInterval: 50,
   headers: { 
     'Authorization': `Bearer ${GRAPHQL_API_TOKEN}`,
-    'X-Exclude-Invalid': true
+    'X-Exclude-Invalid': true,
   }
 }
 
 const link = new BatchHttpLink(linkConfig)
-const previewLink = new BatchHttpLink({...linkConfig, headers:{...linkConfig.headers}})
+const previewLink = new BatchHttpLink({...linkConfig, headers:{...linkConfig.headers, 'X-Include-Drafts' : true}})
 
 export const client = new ApolloClient({
   link,
