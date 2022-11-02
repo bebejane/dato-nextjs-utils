@@ -29,7 +29,7 @@ const loggingFetch = async (input: RequestInfo, init?: RequestInit): Promise<Res
 
 const linkConfig = {
   uri: GRAPHQL_API_ENDPOINT,
-  fetch: process.env.LOG_GRAPHQL ? loggingFetch : undefined,
+  fetch: process.env.LOG_GRAPHQL === 'true' ? loggingFetch : undefined,
   batchMax: 10, 
   batchInterval: 50,
   headers: { 
@@ -39,7 +39,7 @@ const linkConfig = {
 }
 
 const link = new BatchHttpLink(linkConfig)
-const previewLink = new BatchHttpLink({...linkConfig, headers:{...linkConfig.headers, 'X-Include-Drafts': true}})
+const previewLink = new BatchHttpLink({...linkConfig, headers:{...linkConfig.headers}})
 
 export const client = new ApolloClient({
   link,
