@@ -95,3 +95,8 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
     throw err
   }
 }
+
+export const datoError = (err: Error) =>{
+  console.error(err)
+  return err.message || err
+}
