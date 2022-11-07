@@ -37,7 +37,7 @@ const linkConfig = {
 const createLink = (preview: boolean = false, apiToken:string = GRAPHQL_API_TOKEN) => {
   const headers = {
     'Authorization': `Bearer ${apiToken}`,
-    'X-Exclude-Invalid': false,
+    'X-Exclude-Invalid': true,
   }
   
   if(preview)
