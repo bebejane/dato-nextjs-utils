@@ -37,10 +37,13 @@ const linkConfig = {
 const createLink = (preview: boolean = false, apiToken:string = GRAPHQL_API_TOKEN) => {
   return new BatchHttpLink({
     ...linkConfig, 
-    headers:{
+    headers: preview ? {
       'Authorization': `Bearer ${apiToken}`,
-      'X-Include-Drafts': preview,
-      'X-Exclude-Invalid': true
+      'X-Include-Drafts': true,
+      'X-Exclude-Invalid': true 
+    } : {
+      'Authorization': `Bearer ${apiToken}`,
+      'X-Exclude-Invalid': true 
     }
   })
 }
