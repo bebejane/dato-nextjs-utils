@@ -2,6 +2,7 @@ import { TypedDocumentNode } from '@apollo/client/core/types.js';
 export declare type ApiQueryOptions = {
     variables?: any | any[];
     preview?: boolean;
+    apiToken?: string;
 };
 export declare const client: any;
 export declare const SEOQuery: (schema: string) => TypedDocumentNode;

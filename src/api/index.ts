@@ -3,7 +3,7 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js";
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
 import { gql } from "@apollo/client/core/core.cjs";
 
-export type ApiQueryOptions = { variables?: any | any[], preview?: boolean}
+export type ApiQueryOptions = { variables?: any | any[], preview?: boolean, apiToken?: string}
 
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
@@ -31,15 +31,22 @@ const linkConfig = {
   uri: GRAPHQL_API_ENDPOINT,
   fetch: process.env.LOG_GRAPHQL === 'true' ? loggingFetch : undefined,
   batchMax: 10, 
-  batchInterval: 50,
-  headers: { 
-    'Authorization': `Bearer ${GRAPHQL_API_TOKEN}`,
-    'X-Exclude-Invalid': true,
-  }
+  batchInterval: 50
 }
 
-const link = new BatchHttpLink(linkConfig)
-const previewLink = new BatchHttpLink({...linkConfig, headers:{...linkConfig.headers, 'X-Include-Drafts' : true}})
+const createLink = (preview: boolean = false, apiToken:string = GRAPHQL_API_ENDPOINT) => {
+  return new BatchHttpLink({
+    ...linkConfig, 
+    headers:{
+      'Authorization': `Bearer ${apiToken}`,
+      'X-Include-Drafts': preview,
+      'X-Exclude-Invalid': true
+    }
+  })
+}
+
+const link = createLink(false, GRAPHQL_API_ENDPOINT)
+const previewLink = createLink(true, GRAPHQL_API_ENDPOINT)
 
 export const client = new ApolloClient({
   link,
@@ -60,7 +67,7 @@ export const SEOQuery = (schema: string) : TypedDocumentNode => {
 
 export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options? : ApiQueryOptions) : Promise<any> => {
   
-  const { variables, preview = false} = options || {}
+  const { variables, preview = false, apiToken} = options || {}
 
   if(query === null) 
     throw new Error('Invalid query! Query is empty')
@@ -70,7 +77,7 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   
   try{
     
-    client.setLink(preview ? previewLink : link)
+    client.setLink(apiToken ? createLink(preview, apiToken) : preview ? previewLink : link)
 
     const batch = (Array.isArray(query) ? query : [query]).map((q, idx) => {
       const vars = Array.isArray(variables) && variables.length > idx -1 ? variables[idx] : variables || {}
