@@ -34,7 +34,7 @@ const linkConfig = {
   batchInterval: 50
 }
 
-const createLink = (preview: boolean = false, apiToken:string = GRAPHQL_API_ENDPOINT) => {
+const createLink = (preview: boolean = false, apiToken:string = GRAPHQL_API_TOKEN) => {
   return new BatchHttpLink({
     ...linkConfig, 
     headers:{
@@ -45,8 +45,8 @@ const createLink = (preview: boolean = false, apiToken:string = GRAPHQL_API_ENDP
   })
 }
 
-const link = createLink(false, GRAPHQL_API_ENDPOINT)
-const previewLink = createLink(true, GRAPHQL_API_ENDPOINT)
+const link = createLink(false, GRAPHQL_API_TOKEN)
+const previewLink = createLink(true, GRAPHQL_API_TOKEN)
 
 export const client = new ApolloClient({
   link,
