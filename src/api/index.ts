@@ -3,7 +3,7 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js";
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
 import { gql } from "@apollo/client/core/core.cjs";
 
-export type ApiQueryOptions = { variables?: any | any[], preview?: boolean, apiToken?: string}
+
 
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
@@ -60,9 +60,10 @@ export const client = new ApolloClient({
   }
 });
 
-export const SEOQuery = (schema: string) : TypedDocumentNode => {
-  const q = "query GetSEO {seo: " + schema + " {id tags: _seoMetaTags {attributes content tag}}}";
-  return gql(q) as TypedDocumentNode
+export type ApiQueryOptions = { 
+  variables?: any | any[], 
+  preview?: boolean, 
+  apiToken?: string
 }
 
 export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options? : ApiQueryOptions) : Promise<any> => {
@@ -101,6 +102,11 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   }catch(err){
     throw err
   }
+}
+
+export const SEOQuery = (schema: string) : TypedDocumentNode => {
+  const q = "query GetSEO {seo: " + schema + " {id tags: _seoMetaTags {attributes content tag}}}";
+  return gql(q) as TypedDocumentNode
 }
 
 export const datoError = (err: Error) =>{
