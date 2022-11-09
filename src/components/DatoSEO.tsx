@@ -1,68 +1,6 @@
 import React from 'react';
 import { NextSeo, DefaultSeo } from 'next-seo';
 
-type DatoSEOProps = {
-  seo?: any,
-  site?: any,
-  title?: string,
-  subtitle?: string,
-  description?: string,
-  noindex?: boolean
-}
-
-const DatoSEO = ({
-  seo = {},
-  site = {},
-  title,
-  subtitle,
-  description,
-  noindex = false
-}: DatoSEOProps) => {
-
-  const meta = parseDatoMetaTags({ seo, site })
-  const { globalSeo, favicon } = site
-  const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
-  const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
-
-  title = buildTitle(title, globalSeo, subtitle)
-
-  if (!description)
-    description = meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
-
-  const twitterProps: any = {
-    title,
-    image: meta["og:image"],
-    handle: globalSeo?.twitterAccount,
-    site: globalSeo?.twitterAccount,
-    cardType: 'summary_large_image',
-  }
-
-  const props = {
-    openGraph: {
-      title,
-      images,
-      locale: meta["og:locale"],
-      type: meta["og:type"],
-      site_name: meta["og:site_name"],
-    },
-    twitter: twitterProps,
-    additionalLinkTags: favicons,
-    noindex: noindex,
-    nofollow: noindex,
-  }
-
-  if (title)
-    props['title'] = title
-  if (description) {
-    props['description'] = description
-    props.openGraph['description'] = description
-  }
-
-  return (
-    <NextSeo {...props} />
-  )
-}
-export default DatoSEO;
 
 type DefaultSEOProps = {
   site: any,
@@ -72,35 +10,85 @@ type DefaultSEOProps = {
   description?: any,
 }
 
-export const DefaultDatoSEO = ({ site, path, siteTitle, title, description }: DefaultSEOProps) => {
 
-  const { globalSeo, favicon, globalSeo: { fallbackSeo } } = site
-  const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
-  const twitterSite = globalSeo.twitterAccount ? `https://twitter.com/${globalSeo.twitterAccount.replace("@", "")}` : undefined
+type DatoSEOProps = DefaultSEOProps & {
+  seo?: any,
+  noindex?: boolean
+}
+
+const DatoSEO = (props: DatoSEOProps) => {
+
+  const data = parseProps(props)
+
+  return (
+    <NextSeo {...data} />
+  )
+}
+export default DatoSEO;
+
+export const DefaultDatoSEO = (props: DefaultSEOProps) => {
+
 
   if (!process.env.NEXT_PUBLIC_SITE_URL)
     throw 'Set NEXT_PUBLIC_SITE_URL env variable'
 
+  const data = parseProps(props)
+  const titleTemplate = `${props.siteTitle}${data.globalSeo?.titleSuffix ? ` ${data.globalSeo?.titleSuffix}` : ''} %s`
+
   return (
     <DefaultSeo
-      title={title}
-      titleTemplate={`${siteTitle}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''} %s`}
-      defaultTitle={siteTitle}
-      description={description}
-      canonical={`${process.env.NEXT_PUBLIC_SITE_URL}${path || ''}`}
-      additionalLinkTags={favicons}
-      openGraph={{
-        type: 'website',
-        locale: globalSeo.locale,
-        site_name: globalSeo.siteName,
-      }}
-      twitter={{
-        handle: globalSeo.twitterAccount,
-        site: twitterSite,
-        cardType: fallbackSeo.twitterCard,
-      }}
+      {...data}
+      titleTemplate={titleTemplate}
+      defaultTitle={props.siteTitle}
+      canonical={`${process.env.NEXT_PUBLIC_SITE_URL}${props.path || ''}`}
+      additionalLinkTags={data.favicons}
     />
   )
+}
+
+const parseProps = ({
+  seo = {},
+  site = {},
+  title,
+  description,
+  noindex = false
+}: DatoSEOProps) => {
+
+  const meta = parseDatoMetaTags({ seo, site })
+  const { globalSeo, favicon } = site
+  const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
+  const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
+
+  description = description ?? meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
+
+  const props = {
+    openGraph: {
+      title,
+      images,
+      description,
+      locale: meta["og:locale"],
+      type: meta["og:type"],
+      site_name: meta["og:site_name"],
+    },
+    twitter: {
+      title,
+      image: meta["og:image"],
+      handle: globalSeo?.twitterAccount,
+      site: globalSeo?.twitterAccount,
+      cardType: 'summary_large_image',
+    },
+    noindex: noindex,
+    nofollow: noindex,
+    meta,
+    title,
+    description,
+    favicons,
+    globalSeo,
+    images
+  }
+
+
+  return props
 }
 
 const generateImages = (url, width, height): any => {
