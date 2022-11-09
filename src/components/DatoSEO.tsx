@@ -40,25 +40,30 @@ const DatoSEO = ({
     cardType: 'summary_large_image',
   }
 
+  const props = {
+    canonical: url,
+    openGraph: {
+      url,
+      title,
+      description,
+      images,
+      locale: meta["og:locale"],
+      type: meta["og:type"],
+      site_name: meta["og:site_name"],
+    },
+    twitter: twitterProps,
+    additionalLinkTags: favicons,
+    noindex: noindex,
+    nofollow: noindex,
+  }
+
+  if (title)
+    props['title'] = title
+  if (description)
+    props['description'] = description
+
   return (
-    <NextSeo
-      title={title}
-      description={description}
-      canonical={url}
-      openGraph={{
-        url,
-        title,
-        description,
-        images,
-        locale: meta["og:locale"],
-        type: meta["og:type"],
-        site_name: meta["og:site_name"],
-      }}
-      twitter={twitterProps}
-      additionalLinkTags={favicons}
-      noindex={noindex}
-      nofollow={noindex}
-    />
+    <NextSeo {...props} />
   )
 }
 export default DatoSEO;
