@@ -86,7 +86,8 @@ export const DefaultDatoSEO = ({ site, title, subtitle, description }: DefaultSE
 
   return (
     <DefaultSeo
-      titleTemplate={`${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix} ` : ' - '}%s`}
+      title={title}
+      titleTemplate={`${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''} %s`}
       description={description}
       additionalLinkTags={favicons}
       openGraph={{
