@@ -72,11 +72,12 @@ export default DatoSEO;
 type DefaultSEOProps = {
   site: any,
   title?: string,
+  siteTitle?: string,
   subtitle?: string,
   description?: any,
 }
 
-export const DefaultDatoSEO = ({ site, title, subtitle, description }: DefaultSEOProps) => {
+export const DefaultDatoSEO = ({ site, siteTitle, title, subtitle, description }: DefaultSEOProps) => {
 
   const { globalSeo, favicon, globalSeo: { fallbackSeo } } = site
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
@@ -87,7 +88,7 @@ export const DefaultDatoSEO = ({ site, title, subtitle, description }: DefaultSE
   return (
     <DefaultSeo
       title={title}
-      titleTemplate={`${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''} %s`}
+      titleTemplate={`${siteTitle}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''} %s`}
       description={description}
       additionalLinkTags={favicons}
       openGraph={{
