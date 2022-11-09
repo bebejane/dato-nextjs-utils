@@ -1,8 +1,7 @@
 import React from 'react';
 import { NextSeo, DefaultSeo } from 'next-seo';
 
-
-type DefaultSEOProps = {
+export type DefaultSEOProps = {
   site: any,
   path: string,
   title?: string,
@@ -10,24 +9,12 @@ type DefaultSEOProps = {
   description?: string,
 }
 
-
-type DatoSEOProps = DefaultSEOProps & {
+export type DatoSEOProps = DefaultSEOProps & {
   seo?: any,
   noindex?: boolean
 }
 
-const DatoSEO = (props: DatoSEOProps) => {
-
-  const data = parseProps(props)
-
-  return (
-    <NextSeo {...data} />
-  )
-}
-export default DatoSEO;
-
 export const DefaultDatoSEO = (props: DefaultSEOProps) => {
-
 
   if (!process.env.NEXT_PUBLIC_SITE_URL)
     throw 'Set NEXT_PUBLIC_SITE_URL env variable'
@@ -45,6 +32,13 @@ export const DefaultDatoSEO = (props: DefaultSEOProps) => {
     />
   )
 }
+
+const DatoSEO = (props: DatoSEOProps) => {
+  const data = parseProps(props)
+  return <NextSeo {...data} />
+}
+
+export default DatoSEO;
 
 const parseProps = ({
   seo = {},
@@ -88,9 +82,6 @@ const parseProps = ({
     globalSeo,
     images
   }
-
-  console.log(props);
-
 
   return props
 }
@@ -140,15 +131,4 @@ const parseDatoMetaTags = ({ seo, site }: any): any => {
     meta["og:image:height"] = Math.round(fallbackSeo.image.height * scaleRatio)
   }
   return meta
-}
-
-const buildTitle = (title?: string, globalSeo?: any, subtitle?: string) => {
-
-  if (!title && globalSeo)
-    title = globalSeo.siteName
-
-  if (globalSeo?.titleSuffix || subtitle)
-    title = `${title}${subtitle ? ` ${globalSeo?.titleSuffix || '–'} ${subtitle}` : ''}`;
-
-  return title;
 }
