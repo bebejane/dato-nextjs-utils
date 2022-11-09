@@ -42,8 +42,9 @@ const DatoSEO = ({ seo = {}, site = {}, pathname, title, subtitle, description, 
     />
   )
 }
+export default DatoSEO;
 
-const DefaultDatoSEO = ({ site, url, title, description }) => {
+export const DefaultDatoSEO = ({ site, title, description }: { site: any, title?: string, description?: any }) => {
   const { globalSeo, favicon, globalSeo: { fallbackSeo } } = site
   const twitterSite = globalSeo.twitterAccount ? `https://twitter.com/${globalSeo.twitterAccount.replace("@", "")}` : undefined
   return (
@@ -112,6 +113,3 @@ const parseDatoMetaTags = ({ seo, site, pathname }: any): any => {
   }
   return meta
 }
-
-export { DefaultDatoSEO };
-export default DatoSEO;
