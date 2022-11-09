@@ -152,7 +152,7 @@ const buildTitle = (title?: string, globalSeo?: any, subtitle?: string) => {
     title = globalSeo.siteName
 
   if (globalSeo?.titleSuffix || subtitle)
-    title = `${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''}${subtitle ? ` ${subtitle}` : ''}`;
+    title = `${title}${globalSeo?.titleSuffix && subtitle ? ` ${globalSeo?.titleSuffix} ${subtitle}` : ''}`;
 
   return title;
 }
