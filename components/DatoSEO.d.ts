@@ -2,13 +2,12 @@
 declare type DatoSEOProps = {
     seo?: any;
     site?: any;
-    pathname: string;
     title?: string;
     subtitle?: string;
     description?: string;
     noindex?: boolean;
 };
-declare const DatoSEO: ({ seo, site, pathname, title, subtitle, description, noindex }: DatoSEOProps) => JSX.Element;
+declare const DatoSEO: ({ seo, site, title, subtitle, description, noindex }: DatoSEOProps) => JSX.Element;
 export default DatoSEO;
 declare type DefaultSEOProps = {
     site: any;

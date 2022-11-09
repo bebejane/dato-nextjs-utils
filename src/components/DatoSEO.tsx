@@ -4,7 +4,6 @@ import { NextSeo, DefaultSeo } from 'next-seo';
 type DatoSEOProps = {
   seo?: any,
   site?: any,
-  pathname: string,
   title?: string,
   subtitle?: string,
   description?: string,
@@ -14,14 +13,13 @@ type DatoSEOProps = {
 const DatoSEO = ({
   seo = {},
   site = {},
-  pathname,
   title,
   subtitle,
   description,
   noindex = false
 }: DatoSEOProps) => {
 
-  const meta = parseDatoMetaTags({ seo, site, pathname })
+  const meta = parseDatoMetaTags({ seo, site })
   const { globalSeo, favicon } = site
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
@@ -116,7 +114,7 @@ const generateImages = (url, width, height): any => {
   return images
 }
 
-const parseDatoMetaTags = ({ seo, site, pathname }: any): any => {
+const parseDatoMetaTags = ({ seo, site }: any): any => {
 
   if (!seo || !site) return []
 
@@ -128,9 +126,7 @@ const parseDatoMetaTags = ({ seo, site, pathname }: any): any => {
   let titleTag = metaTags.filter(m => m.tag === "title")[0]
 
   if (titleTag && globalSeo) {
-    if (pathname === "/")
-      titleTag = { ...titleTag, content: globalSeo.siteName }
-    else if (globalSeo && titleTag.content.startsWith(globalSeo.siteName))
+    if (globalSeo && titleTag.content.startsWith(globalSeo.siteName))
       titleTag = { ...titleTag, content: `${globalSeo.siteName} – ${titleTag.content}` }
   }
 
