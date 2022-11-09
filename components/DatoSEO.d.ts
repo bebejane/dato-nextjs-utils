@@ -14,7 +14,6 @@ declare type DefaultSEOProps = {
     site: any;
     title?: string;
     siteTitle?: string;
-    subtitle?: string;
     description?: any;
 };
-export declare const DefaultDatoSEO: ({ site, siteTitle, title, subtitle, description }: DefaultSEOProps) => JSX.Element;
+export declare const DefaultDatoSEO: ({ site, siteTitle, title, description }: DefaultSEOProps) => JSX.Element;

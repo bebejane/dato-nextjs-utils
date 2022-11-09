@@ -73,11 +73,10 @@ type DefaultSEOProps = {
   site: any,
   title?: string,
   siteTitle?: string,
-  subtitle?: string,
   description?: any,
 }
 
-export const DefaultDatoSEO = ({ site, siteTitle, title, subtitle, description }: DefaultSEOProps) => {
+export const DefaultDatoSEO = ({ site, siteTitle, title, description }: DefaultSEOProps) => {
 
   const { globalSeo, favicon, globalSeo: { fallbackSeo } } = site
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
