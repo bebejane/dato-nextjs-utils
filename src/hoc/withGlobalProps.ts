@@ -3,25 +3,25 @@ import { GetStaticProps } from 'next'
 import { gql } from "@apollo/client/core/core.cjs";
 import type { TypedDocumentNode } from "@apollo/client/core/types.js";
 
-export default function withGlobalProps(opt: any , callback : Function) : GetStaticProps {
-  
-  const revalidate : number = parseInt(process.env.REVALIDATE_TIME)
-  const queries: TypedDocumentNode[] = [GlobalQuery]
-  
-  if(opt.query) 
-    queries.push(opt.query)
-  if(opt.queries) 
-    queries.push.apply(queries, opt.queries)
-  if(opt.seo) 
-    queries.push(SEOQuery(opt.seo))
-  
-  return async (context) => {
-    const props = await apiQuery(queries, {preview:context.preview});
+export default function withGlobalProps(opt: any, callback: Function): GetStaticProps {
 
-    if(callback)
-      return await callback({context, props: {...props}, revalidate});
+  const revalidate: number = parseInt(process.env.REVALIDATE_TIME)
+  const queries: TypedDocumentNode[] = [GlobalQuery]
+
+  if (opt.query)
+    queries.push(opt.query)
+  if (opt.queries)
+    queries.push.apply(queries, opt.queries)
+  if (opt.seo)
+    queries.push(SEOQuery(opt.seo.model, opt.seo.id))
+
+  return async (context) => {
+    const props = await apiQuery(queries, { preview: context.preview });
+
+    if (callback)
+      return await callback({ context, props: { ...props }, revalidate });
     else
-      return { props:{...props}, context, revalidate};
+      return { props: { ...props }, context, revalidate };
   }
 }
 
