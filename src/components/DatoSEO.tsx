@@ -86,6 +86,7 @@ const parseProps = ({
     globalSeo,
     images
   }
+  console.log(props);
 
 
   return props
