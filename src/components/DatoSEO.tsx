@@ -25,7 +25,6 @@ const DatoSEO = ({
   const { globalSeo, favicon } = site
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}${pathname || ''}`
 
   title = buildTitle(title, globalSeo, subtitle)
 
@@ -41,9 +40,7 @@ const DatoSEO = ({
   }
 
   const props = {
-    canonical: url,
     openGraph: {
-      url,
       title,
       images,
       locale: meta["og:locale"],
@@ -71,18 +68,20 @@ export default DatoSEO;
 
 type DefaultSEOProps = {
   site: any,
+  path: string,
   title?: string,
   siteTitle?: string,
   description?: any,
 }
 
-export const DefaultDatoSEO = ({ site, siteTitle, title, description }: DefaultSEOProps) => {
+export const DefaultDatoSEO = ({ site, path, siteTitle, title, description }: DefaultSEOProps) => {
 
   const { globalSeo, favicon, globalSeo: { fallbackSeo } } = site
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const twitterSite = globalSeo.twitterAccount ? `https://twitter.com/${globalSeo.twitterAccount.replace("@", "")}` : undefined
 
-  //title = buildTitle(title, globalSeo, subtitle)
+  if (!process.env.NEXT_PUBLIC_SITE_URL)
+    throw 'Set NEXT_PUBLIC_SITE_URL env variable'
 
   return (
     <DefaultSeo
@@ -90,6 +89,7 @@ export const DefaultDatoSEO = ({ site, siteTitle, title, description }: DefaultS
       titleTemplate={`${siteTitle}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''} %s`}
       defaultTitle={siteTitle}
       description={description}
+      canonical={`${process.env.NEXT_PUBLIC_SITE_URL}${path || ''}`}
       additionalLinkTags={favicons}
       openGraph={{
         type: 'website',

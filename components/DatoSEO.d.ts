@@ -12,8 +12,9 @@ declare const DatoSEO: ({ seo, site, pathname, title, subtitle, description, noi
 export default DatoSEO;
 declare type DefaultSEOProps = {
     site: any;
+    path: string;
     title?: string;
     siteTitle?: string;
     description?: any;
 };
-export declare const DefaultDatoSEO: ({ site, siteTitle, title, description }: DefaultSEOProps) => JSX.Element;
+export declare const DefaultDatoSEO: ({ site, path, siteTitle, title, description }: DefaultSEOProps) => JSX.Element;
