@@ -7,7 +7,7 @@ type DefaultSEOProps = {
   path: string,
   title?: string,
   siteTitle?: string,
-  description?: any,
+  description?: string,
 }
 
 
@@ -59,7 +59,7 @@ const parseProps = ({
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
 
-  description = description ?? meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
+  description = description || meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
 
   const props = {
     openGraph: {

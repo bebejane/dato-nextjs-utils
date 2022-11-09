@@ -4,7 +4,7 @@ declare type DefaultSEOProps = {
     path: string;
     title?: string;
     siteTitle?: string;
-    description?: any;
+    description?: string;
 };
 declare type DatoSEOProps = DefaultSEOProps & {
     seo?: any;
