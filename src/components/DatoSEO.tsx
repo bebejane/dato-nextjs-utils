@@ -67,7 +67,7 @@ type DefaultSEOProps = {
   site: any,
   title?: string,
   subtitle?: string,
-  description?: any
+  description?: any,
 }
 
 export const DefaultDatoSEO = ({ site, title, subtitle, description }: DefaultSEOProps) => {
@@ -148,11 +148,11 @@ const parseDatoMetaTags = ({ seo, site, pathname }: any): any => {
 
 const buildTitle = (title?: string, globalSeo?: any, subtitle?: string) => {
 
-  if (!title) {
-    if (globalSeo)
-      title = globalSeo.siteName
-    if (globalSeo?.titleSuffix || subtitle)
-      title = `${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''}${subtitle ? ` ${subtitle}` : ''}`;
-  }
+  if (!title && globalSeo)
+    title = globalSeo.siteName
+
+  if (globalSeo?.titleSuffix || subtitle)
+    title = `${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''}${subtitle ? ` ${subtitle}` : ''}`;
+
   return title;
 }
