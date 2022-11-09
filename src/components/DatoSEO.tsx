@@ -46,11 +46,14 @@ export default DatoSEO;
 
 export const DefaultDatoSEO = ({ site, title, description }: { site: any, title?: string, description?: any }) => {
   const { globalSeo, favicon, globalSeo: { fallbackSeo } } = site
+  const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const twitterSite = globalSeo.twitterAccount ? `https://twitter.com/${globalSeo.twitterAccount.replace("@", "")}` : undefined
+
   return (
     <DefaultSeo
       title={title}
       description={description}
+      additionalLinkTags={favicons}
       openGraph={{
         type: 'website',
         locale: globalSeo.locale,
