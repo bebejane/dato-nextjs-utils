@@ -82,11 +82,11 @@ export const DefaultDatoSEO = ({ site, title, subtitle, description }: DefaultSE
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const twitterSite = globalSeo.twitterAccount ? `https://twitter.com/${globalSeo.twitterAccount.replace("@", "")}` : undefined
 
-  title = buildTitle(title, globalSeo, subtitle)
+  //title = buildTitle(title, globalSeo, subtitle)
 
   return (
     <DefaultSeo
-      title={title}
+      titleTemplate={`${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix} ` : ' - '}%s`}
       description={description}
       additionalLinkTags={favicons}
       openGraph={{
