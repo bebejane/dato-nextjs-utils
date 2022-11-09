@@ -1,7 +1,7 @@
 /// <reference types="react" />
 export declare type DefaultSEOProps = {
-    site: any;
-    path: string;
+    site?: any;
+    path?: string;
     title?: string;
     siteTitle?: string;
     description?: string;

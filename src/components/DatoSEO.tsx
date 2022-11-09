@@ -2,8 +2,8 @@ import React from 'react';
 import { NextSeo, DefaultSeo } from 'next-seo';
 
 export type DefaultSEOProps = {
-  site: any,
-  path: string,
+  site?: any,
+  path?: string,
   title?: string,
   siteTitle?: string,
   description?: string,
@@ -47,7 +47,6 @@ const parseProps = ({
   description,
   noindex = false
 }: DatoSEOProps) => {
-  console.log('desc', description);
 
   const meta = parseDatoMetaTags({ seo, site })
   const { globalSeo, favicon } = site
