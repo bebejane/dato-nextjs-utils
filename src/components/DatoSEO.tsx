@@ -1,7 +1,25 @@
 import React from 'react';
 import { NextSeo, DefaultSeo } from 'next-seo';
 
-const DatoSEO = ({ seo = {}, site = {}, pathname, title, subtitle, description, noindex = false }: any) => {
+type DatoSEOProps = {
+  seo?: any,
+  site?: any,
+  pathname: string,
+  title?: string,
+  subtitle?: string,
+  description?: string,
+  noindex?: boolean
+}
+
+const DatoSEO = ({
+  seo = {},
+  site = {},
+  pathname,
+  title,
+  subtitle,
+  description,
+  noindex = false
+}: DatoSEOProps) => {
 
   const meta = parseDatoMetaTags({ seo, site, pathname })
   const { globalSeo, favicon } = site
@@ -9,12 +27,7 @@ const DatoSEO = ({ seo = {}, site = {}, pathname, title, subtitle, description, 
   const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}${pathname || ''}`
 
-  if (!title) {
-    if (globalSeo)
-      title = globalSeo.siteName
-    if (globalSeo?.titleSuffix || subtitle)
-      title = `${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''}${subtitle ? ` ${subtitle}` : ''}`;
-  }
+  title = buildTitle(title, globalSeo, subtitle)
 
   if (!description)
     description = meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
@@ -50,10 +63,20 @@ const DatoSEO = ({ seo = {}, site = {}, pathname, title, subtitle, description, 
 }
 export default DatoSEO;
 
-export const DefaultDatoSEO = ({ site, title, description }: { site: any, title?: string, description?: any }) => {
+type DefaultSEOProps = {
+  site: any,
+  title?: string,
+  subtitle?: string,
+  description?: any
+}
+
+export const DefaultDatoSEO = ({ site, title, subtitle, description }: DefaultSEOProps) => {
+
   const { globalSeo, favicon, globalSeo: { fallbackSeo } } = site
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const twitterSite = globalSeo.twitterAccount ? `https://twitter.com/${globalSeo.twitterAccount.replace("@", "")}` : undefined
+
+  title = buildTitle(title, globalSeo, subtitle)
 
   return (
     <DefaultSeo
@@ -121,4 +144,15 @@ const parseDatoMetaTags = ({ seo, site, pathname }: any): any => {
     meta["og:image:height"] = Math.round(fallbackSeo.image.height * scaleRatio)
   }
   return meta
+}
+
+const buildTitle = (title?: string, globalSeo?: any, subtitle?: string) => {
+
+  if (!title) {
+    if (globalSeo)
+      title = globalSeo.siteName
+    if (globalSeo?.titleSuffix || subtitle)
+      title = `${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''}${subtitle ? ` ${subtitle}` : ''}`;
+  }
+  return title;
 }

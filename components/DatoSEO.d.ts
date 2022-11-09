@@ -1,8 +1,19 @@
 /// <reference types="react" />
-declare const DatoSEO: ({ seo, site, pathname, title, subtitle, description, noindex }: any) => JSX.Element;
+declare type DatoSEOProps = {
+    seo?: any;
+    site?: any;
+    pathname: string;
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    noindex?: boolean;
+};
+declare const DatoSEO: ({ seo, site, pathname, title, subtitle, description, noindex }: DatoSEOProps) => JSX.Element;
 export default DatoSEO;
-export declare const DefaultDatoSEO: ({ site, title, description }: {
+declare type DefaultSEOProps = {
     site: any;
     title?: string;
+    subtitle?: string;
     description?: any;
-}) => JSX.Element;
+};
+export declare const DefaultDatoSEO: ({ site, title, subtitle, description }: DefaultSEOProps) => JSX.Element;
