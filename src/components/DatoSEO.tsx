@@ -45,7 +45,6 @@ const DatoSEO = ({
     openGraph: {
       url,
       title,
-      description,
       images,
       locale: meta["og:locale"],
       type: meta["og:type"],
@@ -59,8 +58,10 @@ const DatoSEO = ({
 
   if (title)
     props['title'] = title
-  if (description)
+  if (description) {
     props['description'] = description
+    props.openGraph['description'] = description
+  }
 
   return (
     <NextSeo {...props} />
