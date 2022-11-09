@@ -108,9 +108,9 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   }
 }
 
-export const SEOQuery = (model: string, id: string): TypedDocumentNode => {
+export const SEOQuery = (model: string, id?: string): TypedDocumentNode => {
   const q = `query GetSEO{
-    seo: ${model} ( filter: { id: { eq: "${id}" } }) {
+    seo: ${model} ${id ? `( filter: { id: { eq: "${id}" } })` : ''} {
       id 
       tags: _seoMetaTags {
         attributes 

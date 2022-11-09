@@ -6,5 +6,5 @@ export declare type ApiQueryOptions = {
     apiToken?: string;
 };
 export declare const apiQuery: (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions) => Promise<any>;
-export declare const SEOQuery: (model: string, id: string) => TypedDocumentNode;
+export declare const SEOQuery: (model: string, id?: string) => TypedDocumentNode;
 export declare const datoError: (err: Error) => string | Error;
