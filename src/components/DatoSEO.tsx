@@ -53,13 +53,15 @@ const parseProps = ({
   description,
   noindex = false
 }: DatoSEOProps) => {
+  console.log('desc', description);
 
   const meta = parseDatoMetaTags({ seo, site })
   const { globalSeo, favicon } = site
   const favicons = favicon ? favicon.map(({ attributes }) => { return { ...attributes } }) : [];
   const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
 
-  description = description || meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
+  if (!description)
+    description = meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
 
   const props = {
     openGraph: {
@@ -86,6 +88,7 @@ const parseProps = ({
     globalSeo,
     images
   }
+
   console.log(props);
 
 
