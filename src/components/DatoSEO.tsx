@@ -9,9 +9,15 @@ const DatoSEO = ({ seo = {}, site = {}, pathname, title, subtitle, description, 
   const images = generateImages(meta["og:image"], meta["og:image:width"], meta["og:image:height"])
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}${pathname || ''}`
 
-  title = title ? title : globalSeo ? globalSeo?.siteName : 'Site title'
-  title = `${title} ${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''}${subtitle ? ` ${subtitle}` : ''}`
-  description = description ? description : meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : 'Site description';
+  if (!title) {
+    if (globalSeo)
+      title = globalSeo.siteName
+    if (globalSeo?.titleSuffix || subtitle)
+      title = `${title}${globalSeo?.titleSuffix ? ` ${globalSeo?.titleSuffix}` : ''}${subtitle ? ` ${subtitle}` : ''}`;
+  }
+
+  if (!description)
+    description = meta.description ? meta.description : globalSeo ? globalSeo?.fallbackSeo.description : undefined;
 
   const twitterProps: any = {
     title,
