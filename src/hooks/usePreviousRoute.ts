@@ -19,6 +19,7 @@ const usePreviousRoute = () => {
     const handleWindowReload = (e) => {
       storage.removeItem('previousRoute')
       storage.removeItem("currentRoute")
+      alert('beforunload')
     }
     window.addEventListener('beforeunload', handleWindowReload)
     return () => window.removeEventListener('beforeunload', handleWindowReload)
