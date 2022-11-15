@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 
 const usePreviousRoute = () => {
 
-  const storage = globalThis.sessionStorage
+  const storage = globalThis.localStorage
   const router = useRouter()
   const [prevRoute, setPrevRoute] = useState(typeof storage !== 'undefined' ? storage.getItem('previousRoute') : null)
 
   useEffect(() => {
-    const prevRoute = storage.getItem('currentRoute');
+    const prevRoute = storage.getItem('currentRoute') || null;
     if (prevRoute === router.asPath) return
     storage.setItem('previousRoute', prevRoute)
     storage.setItem("currentRoute", router.asPath);
@@ -16,13 +16,12 @@ const usePreviousRoute = () => {
   }, [router.asPath, storage])
 
   useEffect(() => {
-    const handleWindowReload = (e) => {
+    const handleWindowReload = () => {
       storage.removeItem('previousRoute')
       storage.removeItem("currentRoute")
-      alert('beforunload')
     }
-    window.addEventListener('beforeunload', handleWindowReload)
-    return () => window.removeEventListener('beforeunload', handleWindowReload)
+    window.addEventListener('unload', handleWindowReload)
+    return () => window.removeEventListener('unload', handleWindowReload)
   }, [])
 
 
