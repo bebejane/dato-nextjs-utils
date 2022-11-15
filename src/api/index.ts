@@ -3,8 +3,6 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js";
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
 import { gql } from "@apollo/client/core/core.cjs";
 
-
-
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
 const GRAPHQL_API_TOKEN = process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN
