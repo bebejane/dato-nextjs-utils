@@ -75,7 +75,7 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   if (query === null)
     throw new Error('Invalid query! Query is empty')
 
-  if (!GRAPHQL_API_TOKEN)
+  if (!GRAPHQL_API_TOKEN && !apiToken)
     throw new Error('No graphql api token exists in .env')
 
   try {
