@@ -2,48 +2,50 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import gfm from 'remark-gfm'
 import Link from "next/link.js";
-import truncateMarkdown  from 'markdown-truncate'
+import truncateMarkdown from 'markdown-truncate'
 import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
 
 type MarkdownProps = {
-  children?: React.ReactNode, 
-  truncate?: number, 
-  className?:string, 
-  sentances?:number
+  children?: React.ReactNode,
+  allowedElements?: string[]
+  truncate?: number,
+  className?: string,
+  sentances?: number
 }
 
 type AnchorProp = {
-  children: any[], 
-  href: UrlObject 
+  children: any[],
+  href: UrlObject
 }
 
-const truncateSentances = (markdown : string, limit: number) : string => {
-  if(!markdown) return markdown
+const truncateSentances = (markdown: string, limit: number): string => {
+  if (!markdown) return markdown
   const sentances = markdown.split('.')
-  return sentances.length >= limit  ? sentances.slice(0,limit).join(' ') +  '...' : markdown
+  return sentances.length >= limit ? sentances.slice(0, limit).join(' ') + '...' : markdown
 }
 
-const DatoMarkdown = ({ children , truncate, className, sentances } : MarkdownProps) => {
-  if(!children) 
+const DatoMarkdown = ({ children, truncate, className, sentances, allowedElements }: MarkdownProps) => {
+  if (!children)
     return null
 
-  const content: string = !truncate ? sentances ? truncateSentances(children as string, sentances) :  children : truncateMarkdown(children, {limit:truncate, ellipsis:true})
-  
+  const content: string = !truncate ? sentances ? truncateSentances(children as string, sentances) : children : truncateMarkdown(children, { limit: truncate, ellipsis: true })
+
   return (
-    <ReactMarkdown 
-      remarkPlugins={[gfm,remarkBreaks]} 
+    <ReactMarkdown
+      remarkPlugins={[gfm, remarkBreaks]}
       className={className}
       children={content}
+      allowedElements={allowedElements}
       //@ts-ignore
       components={{
         //@ts-ignore
-        a: ({ children, href } : AnchorProp) => <Link scroll={false} href={href}><a>{children[0]}</a></Link> 
+        a: ({ children, href }: AnchorProp) => <Link scroll={false} href={href}><a>{children[0]}</a></Link>
       }}
-      
-     />
+
+    />
   )
-} 
+}
 
 export default DatoMarkdown
 
