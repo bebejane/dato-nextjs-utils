@@ -4,6 +4,7 @@ export declare type ApiQueryOptions = {
     variables?: any | any[];
     preview?: boolean;
     apiToken?: string;
+    environment?: string;
 };
 export declare const apiQuery: (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions) => Promise<any>;
 export declare const SEOQuery: (model: string, id?: string) => TypedDocumentNode;

@@ -6,6 +6,7 @@ import { gql } from "@apollo/client/core/core.cjs";
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
 const GRAPHQL_API_TOKEN = process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN || process.env.GRAPHQL_API_TOKEN
+const GRAPHQL_ENVIRONMENT = process.env.GRAPHQL_ENVIRONMENT
 
 const loggingFetch = async (input: RequestInfo, init?: RequestInit): Promise<Response> => {
 
@@ -35,11 +36,13 @@ const linkConfig = {
 const createLink = (preview: boolean = false, apiToken: string = GRAPHQL_API_TOKEN) => {
   const headers = {
     'Authorization': `Bearer ${apiToken}`,
-    'X-Exclude-Invalid': true,
+    'X-Exclude-Invalid': true
   }
 
   if (preview)
     headers['X-Include-Drafts'] = true
+  if (GRAPHQL_ENVIRONMENT)
+    headers['X-Environment'] = GRAPHQL_ENVIRONMENT
 
   return new BatchHttpLink({
     ...linkConfig,
@@ -65,12 +68,13 @@ export const client = new ApolloClient({
 export type ApiQueryOptions = {
   variables?: any | any[],
   preview?: boolean,
-  apiToken?: string
+  apiToken?: string,
+  environment?: string
 }
 
 export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions): Promise<any> => {
 
-  const { variables, preview = false, apiToken } = options || {}
+  const { variables, preview = false, apiToken, environment } = options || {}
 
   if (query === null)
     throw new Error('Invalid query! Query is empty')
