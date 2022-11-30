@@ -41,6 +41,7 @@ const createLink = (preview: boolean = false, apiToken: string = GRAPHQL_API_TOK
 
   if (preview)
     headers['X-Include-Drafts'] = true
+
   if (GRAPHQL_ENVIRONMENT)
     headers['X-Environment'] = GRAPHQL_ENVIRONMENT
 
@@ -79,7 +80,7 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   if (query === null)
     throw new Error('Invalid query! Query is empty')
 
-  if (!GRAPHQL_API_TOKEN && !apiToken)
+  if (!GRAPHQL_API_TOKEN || !apiToken)
     throw new Error('No graphql api token exists in .env')
 
   try {
