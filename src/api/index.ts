@@ -76,7 +76,6 @@ export type ApiQueryOptions = {
 export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions): Promise<any> => {
 
   const { variables, preview = false, apiToken } = options || {}
-  console.log(options);
 
   if (query === null)
     throw new Error('Invalid query! Query is empty')
@@ -90,6 +89,8 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
 
     const batch = (Array.isArray(query) ? query : [query]).map((q, idx) => {
       const vars = Array.isArray(variables) && variables.length > idx - 1 ? variables[idx] : variables || {}
+      console.log(vars);
+
       return client.query({ query: q, variables: vars })
     })
 
