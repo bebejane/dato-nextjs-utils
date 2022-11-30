@@ -75,12 +75,12 @@ export type ApiQueryOptions = {
 
 export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions): Promise<any> => {
 
-  const { variables, preview = false, apiToken, environment } = options || {}
+  const { variables, preview = false, apiToken } = options || {}
 
   if (query === null)
     throw new Error('Invalid query! Query is empty')
 
-  if (!GRAPHQL_API_TOKEN || !apiToken)
+  if (!GRAPHQL_API_TOKEN && !apiToken)
     throw new Error('No graphql api token exists in .env')
 
   try {
