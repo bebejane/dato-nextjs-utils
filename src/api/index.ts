@@ -89,9 +89,6 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
 
     const batch = (Array.isArray(query) ? query : [query]).map((q, idx) => {
       const vars = Array.isArray(variables) && variables.length > idx - 1 ? variables[idx] : variables || {}
-      Object.keys(vars).forEach(k => vars[k] === undefined && delete vars[k])
-      console.log(vars);
-
       return client.query({ query: q, variables: vars })
     })
 
