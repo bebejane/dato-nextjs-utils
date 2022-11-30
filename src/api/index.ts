@@ -76,6 +76,7 @@ export type ApiQueryOptions = {
 export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions): Promise<any> => {
 
   const { variables, preview = false, apiToken } = options || {}
+  console.log(options);
 
   if (query === null)
     throw new Error('Invalid query! Query is empty')
