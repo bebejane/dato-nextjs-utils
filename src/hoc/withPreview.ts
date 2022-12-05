@@ -5,7 +5,7 @@ export default async function withPreview(req: NextApiRequest, res: NextApiRespo
   if (req.query.secret !== process.env.DATOCMS_PREVIEW_SECRET || !req.query.slug)
     return res.status(401).json({ message: 'Invalid token' })
 
-  const { slug } = req.query
+  const { slug } = req.query as { slug: string }
 
   const Location = slug ? slug.startsWith('/') ? slug : `/${slug}` : '/'
 
