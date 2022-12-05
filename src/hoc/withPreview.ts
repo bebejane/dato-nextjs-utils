@@ -7,9 +7,11 @@ export default async function withPreview(req: NextApiRequest, res: NextApiRespo
 
   const { slug } = req.query
 
+  const Location = slug ? slug.startsWith('/') ? slug : `/${slug}` : '/'
+
   try {
     res.setPreviewData({}, { maxAge: 10 })
-    res.writeHead(307, { Location: `/${slug || ''}` })
+    res.writeHead(307, { Location })
     res.end()
   } catch (err) {
     console.error(err)
