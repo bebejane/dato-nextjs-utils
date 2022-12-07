@@ -26,7 +26,7 @@ const truncateSentances = (markdown: string, limit: number): string => {
   return sentances.length >= limit ? sentances.slice(0, limit).join(' ') + '...' : markdown
 }
 
-const DatoMarkdown = ({ children, truncate, className, sentances, allowedElements, scroll = false }: MarkdownProps) => {
+const DatoMarkdown = ({ children, truncate, className, sentances, allowedElements, scroll = true }: MarkdownProps) => {
   if (!children)
     return null
 
@@ -41,7 +41,7 @@ const DatoMarkdown = ({ children, truncate, className, sentances, allowedElement
       //@ts-ignore
       components={{
         //@ts-ignore
-        a: ({ children, href }: AnchorProp) => <Link scroll={scroll} href={href}><a>{children[0]}</a></Link>
+        a: ({ children, href }: AnchorProp) => <Link scroll={scroll} href={href}>{children[0]}</Link>
       }}
 
     />
