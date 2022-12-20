@@ -5,6 +5,9 @@ export default function withBasicAuth(callback: (req: NextApiRequest, res: NextA
   return async (req: NextApiRequest, res: NextApiResponse) => {
 
     const basicAuth = req.headers.authorization
+    if (!basicAuth)
+      return res.status(401).send('Access denied')
+
     const auth = basicAuth.split(' ')[1]
     const [user, pwd] = Buffer.from(auth, 'base64').toString().split(':')
     const isAuthorized = user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD
