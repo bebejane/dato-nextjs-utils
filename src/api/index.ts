@@ -1,7 +1,10 @@
+import { loadEnvConfig } from '@next/env'
 import { ApolloClient, InMemoryCache } from '@apollo/client/core/core.cjs';
 import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js";
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
 import { gql } from "@apollo/client/core/core.cjs";
+
+loadEnvConfig(process.env.PWD)
 
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
@@ -80,10 +83,7 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   if (query === null)
     throw new Error('Invalid query! Query is empty')
 
-  console.log(process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN, process.env.GRAPHQL_API_TOKEN);
-
-  //const token = process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN || process.env.GRAPHQL_API_TOKEN
-  if (!process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN && !process.env.GRAPHQL_API_TOKEN && !apiToken)
+  if (!GRAPHQL_API_TOKEN && !apiToken)
     throw new Error('No graphql api token exists in .env')
 
   try {
