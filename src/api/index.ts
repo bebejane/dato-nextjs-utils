@@ -4,6 +4,7 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js";
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
 import { gql } from "@apollo/client/core/core.cjs";
 import { loadEnvConfig } from '@next/env'
+
 loadEnvConfig(process.env.PWD)
 
 const isServer = typeof window === 'undefined';
