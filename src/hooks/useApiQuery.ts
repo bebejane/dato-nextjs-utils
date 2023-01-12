@@ -31,6 +31,8 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const load = useCallback((vars?: any) => {
 
     setLoading(true)
+    console.log(vars, variables);
+
     console.log({ variables: { ...vars || variables } });
 
     return apiQuery(document, { variables: { ...vars || variables } })
@@ -41,7 +43,6 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
         setData(d)
         return d
       })
-      .catch(err => setError(err))
       .finally(() => setLoading(false))
 
   }, [document, variables, data])
