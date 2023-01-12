@@ -1,6 +1,6 @@
 {
 	"name": "dato-nextjs-utils",
-	"version": "1.0.237",
+	"version": "1.0.238",
 	"description": "Utils for Bebe",
 	"types": "./index.d.ts",
 	"type": "module",
@@ -43,6 +43,7 @@
 		"@apollo/client": "^3.7.3",
 		"@datocms/cma-client": "^1.1.22",
 		"@next/env": "^13.1.1",
+		"@types/node": "^18.11.18",
 		"markdown-truncate": "^1.0.4",
 		"next": "^13.1.1",
 		"next-seo": "^5.15.0",
