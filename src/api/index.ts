@@ -3,9 +3,9 @@ import { ApolloClient, InMemoryCache } from '@apollo/client/core/core.cjs';
 import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js";
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
 import { gql } from "@apollo/client/core/core.cjs";
-import { loadEnvConfig } from '@next/env'
+//import { loadEnvConfig } from '@next/env'
 
-loadEnvConfig(process.env.PWD)
+//loadEnvConfig(process.env.PWD)
 
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
