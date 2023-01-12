@@ -49,6 +49,8 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
     if (!oldData || !newData) return newData
 
+    console.log('merge');
+
     Object.keys(newData).forEach(k => {
       if (oldData[k] && Array.isArray(oldData[k]))
         newData[k] = oldData[k].concat(newData[k])
