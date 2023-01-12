@@ -34,7 +34,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
     const first = page.size
     const skip = page.no * page.size
-    const d = await load({ variables, first, skip })
+    const d = await load({ ...variables, first, skip })
 
     const count = d[Object.keys(d).find(k => !isNaN(d[k].count))]?.count || 0;
     const no = page.no + 1
