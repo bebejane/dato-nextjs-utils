@@ -34,18 +34,21 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
     const first = page.size
     const skip = page.no * page.size
+
     try {
       const d = await load({ ...variables, first, skip })
-    } catch (err) {
-      return setError(err)
-    }
-    const count = d[Object.keys(d).find(k => !isNaN(d[k].count))]?.count || 0;
-    const no = page.no + 1
-    const end = no * pageSize >= count
-    const p = { ...page, no, count, end }
+      const count = d[Object.keys(d).find(k => !isNaN(d[k].count))]?.count || 0;
+      const no = page.no + 1
+      const end = no * pageSize >= count
+      const p = { ...page, no, count, end }
 
-    setPage(p)
-    return p;
+      setPage(p)
+      return p;
+
+    } catch (err) {
+      setError(err)
+      return page;
+    }
   }
 
   const mergeData = (newData, oldData) => {
