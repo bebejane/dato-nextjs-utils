@@ -7,5 +7,5 @@ declare type MarkdownProps = {
     sentances?: number;
     scroll?: boolean;
 };
-declare const DatoMarkdown: ({ children, truncate, className, sentances, allowedElements, scroll }: MarkdownProps) => any;
+declare const DatoMarkdown: ({ children, truncate, className, sentances, allowedElements, scroll }: MarkdownProps) => JSX.Element;
 export default DatoMarkdown;

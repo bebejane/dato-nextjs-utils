@@ -1,2 +1,2 @@
-declare const useTransitionFix: () => any;
+declare const useTransitionFix: () => void;
 export default useTransitionFix;

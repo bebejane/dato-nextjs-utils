@@ -10,11 +10,16 @@ export declare type Pagination = {
     end: boolean;
 };
 declare const useApiQuery: <T>(document: TypedDocumentNode, { variables, initialData, pageSize }?: UseApiQueryProps) => {
-    data: any;
-    error: any;
-    loading: any;
-    loadMore: (vars: any) => any;
-    nextPage: () => Promise<any>;
-    page: any;
+    data: T;
+    error: Error;
+    loading: boolean;
+    loadMore: (vars: any) => Promise<any>;
+    nextPage: () => Promise<void | {
+        no: number;
+        count: any;
+        end: boolean;
+        size: number;
+    }>;
+    page: Pagination;
 };
 export default useApiQuery;

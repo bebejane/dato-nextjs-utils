@@ -9,4 +9,4 @@ export declare type ScrollInfo = {
     viewportHeight: number;
     timer: ReturnType<typeof setTimeout>;
 };
-export default function useScrollInfo(pageBottomLimit?: number): any;
+export default function useScrollInfo(pageBottomLimit?: number): ScrollInfo;

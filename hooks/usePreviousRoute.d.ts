@@ -1,2 +1,2 @@
-declare const usePreviousRoute: () => any;
+declare const usePreviousRoute: () => string;
 export default usePreviousRoute;
