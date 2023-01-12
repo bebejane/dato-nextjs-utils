@@ -33,7 +33,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
     setLoading(true)
     console.log({ variables: vars || variables });
 
-    return apiQuery(document, { variables: vars || variables })
+    return apiQuery(document, { variables: { ...vars || variables } })
       .then(res => {
         console.log(res);
 
