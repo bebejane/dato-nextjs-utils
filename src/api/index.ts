@@ -3,9 +3,6 @@ import { ApolloClient, InMemoryCache } from '@apollo/client/core/core.cjs';
 import { BatchHttpLink } from "@apollo/client/link/batch-http/batchHttpLink.js";
 import { TypedDocumentNode } from '@apollo/client/core/types.js';
 import { gql } from "@apollo/client/core/core.cjs";
-//import { loadEnvConfig } from '@next/env'
-
-//loadEnvConfig(process.env.PWD)
 
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
@@ -37,7 +34,7 @@ const linkConfig = {
   batchInterval: 50
 }
 
-const createLink = (preview: boolean = false, apiToken: string = GRAPHQL_API_TOKEN) => {
+const createLink = (preview: boolean = false, apiToken) => {
   const headers = {
     'Authorization': `Bearer ${apiToken}`,
     'X-Exclude-Invalid': true
@@ -88,6 +85,7 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
     throw new Error('No graphql api token exists in .env')
 
   try {
+    client.headers
 
     client.setLink(apiToken ? createLink(preview, apiToken) : preview ? previewLink : link)
 

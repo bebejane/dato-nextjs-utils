@@ -46,8 +46,12 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
     if (!page)
       return setError(new Error('No page size set!'))
 
+
     const first = page.size
     const skip = page.no * page.size
+
+    if (skip > page.count)
+      return page
 
     try {
       const d = await load({ ...variables.variables, first, skip })
