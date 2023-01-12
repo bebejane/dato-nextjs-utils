@@ -28,6 +28,24 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
   const loadMore = (vars: any) => load(vars)
 
+  const load = useCallback((vars?: any) => {
+
+    setLoading(true)
+    console.log({ variables: vars || variables });
+
+    return apiQuery(document, { variables: vars || variables })
+      .then(res => {
+        console.log(res);
+
+        const d = mergeData(res, data)
+        setData(d)
+        return d
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+
+  }, [document, variables, data])
+
   const nextPage = async () => {
     if (!page)
       return setError(new Error('No page size set!'))
@@ -65,21 +83,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
     return newData;
   }
 
-  const load = useCallback((vars?: any) => {
 
-    setLoading(true)
-    console.log(vars);
-
-    return apiQuery(document, { variables: vars || variables })
-      .then(res => {
-        const d = mergeData(res, data)
-        setData(d)
-        return d
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-
-  }, [document, variables, data])
 
   useEffect(() => { !initialData && load() }, [initialData, load])
 
