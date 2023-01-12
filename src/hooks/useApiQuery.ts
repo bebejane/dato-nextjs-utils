@@ -50,7 +50,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
     const first = page.size
     const skip = page.no * page.size
 
-    if (skip > page.count)
+    if (skip > page.count && page.count > 0)
       return page
 
     try {
