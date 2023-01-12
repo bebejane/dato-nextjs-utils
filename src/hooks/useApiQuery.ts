@@ -31,14 +31,9 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const load = useCallback((vars?: any) => {
 
     setLoading(true)
-    console.log(vars, variables);
-
-    console.log({ variables: { ...vars || variables } });
 
     return apiQuery(document, { variables: { ...vars || variables } })
       .then(res => {
-        console.log(res);
-
         const d = mergeData(res, data)
         setData(d)
         return d
@@ -56,8 +51,6 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
     try {
       const d = await load({ ...variables.variables, first, skip })
-      console.log(d);
-
       const count = d[Object.keys(d).find(k => !isNaN(d[k].count))]?.count || 0;
       const no = page.no + 1
       const end = no * pageSize >= count
