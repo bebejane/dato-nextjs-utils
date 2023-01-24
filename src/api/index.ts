@@ -43,8 +43,11 @@ const createLink = (preview: boolean = false, apiToken) => {
   if (preview)
     headers['X-Include-Drafts'] = true
 
-  if (GRAPHQL_ENVIRONMENT)
+  if (GRAPHQL_ENVIRONMENT) {
+    console.log('set gql env', GRAPHQL_ENVIRONMENT);
+
     headers['X-Environment'] = GRAPHQL_ENVIRONMENT
+  }
 
   return new BatchHttpLink({
     ...linkConfig,
