@@ -17,6 +17,8 @@ export type Pagination = {
 }
 
 const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, pageSize }: UseApiQueryProps = {}) => {
+
+  const [initial, setInitial] = useState<T>(initialData)
   const [data, setData] = useState<T>(initialData)
   const [page, setPage] = useState<Pagination | undefined>(pageSize ? {
     no: 1,
@@ -28,7 +30,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    JSON.stringify(initialData) !== JSON.stringify(data) && setData(initialData)
+    JSON.stringify(initialData) !== JSON.stringify(initial) && setData(initialData)
   }, [initialData])
 
   const loadMore = (vars: any) => load(vars)
