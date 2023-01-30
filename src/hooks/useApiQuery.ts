@@ -27,7 +27,9 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const [error, setError] = useState<Error | undefined>()
   const [loading, setLoading] = useState(false)
 
-  //useEffect(() => JSON.stringify(initialData) !== JSON.stringify(data) && setData(initialData), [initialData])
+  useEffect(() => {
+    JSON.stringify(initialData) !== JSON.stringify(data) && setData(initialData)
+  }, [initialData])
 
   const loadMore = (vars: any) => load(vars)
 
