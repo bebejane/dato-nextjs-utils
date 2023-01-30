@@ -1,4 +1,5 @@
 import { TypedDocumentNode } from '@apollo/client/core/core.cjs';
+import { setRevalidateHeaders } from 'next/dist/server/send-payload';
 import { useEffect, useState, useCallback } from "react";
 import { apiQuery } from '../api/index.js';
 
@@ -42,6 +43,8 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
   }, [document, variables, data])
 
+  useEffect(() => initialData && setData(initialData), [initialData])
+
   const nextPage = async () => {
     if (!page)
       return setError(new Error('No page size set!'))
@@ -81,9 +84,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
     return newData;
   }
 
-
-
-  useEffect(() => { !initialData ? load() : setData(initialData) }, [initialData, load])
+  useEffect(() => { !initialData && load() }, [initialData, load])
 
   return { data, error, loading, loadMore, nextPage, page }
 };
