@@ -27,6 +27,8 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const [error, setError] = useState<Error | undefined>()
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => initialData && setData(initialData), [initialData])
+
   const loadMore = (vars: any) => load(vars)
 
   const load = useCallback((vars?: any) => {
@@ -42,6 +44,8 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
       .finally(() => setLoading(false))
 
   }, [document, variables, data])
+
+
 
   const nextPage = async () => {
     if (!page)
