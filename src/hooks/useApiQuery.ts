@@ -83,7 +83,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
 
 
-  useEffect(() => { !initialData && load() }, [initialData, load])
+  useEffect(() => { !initialData ? load() : setData(initialData) }, [initialData, load])
 
   return { data, error, loading, loadMore, nextPage, page }
 };
