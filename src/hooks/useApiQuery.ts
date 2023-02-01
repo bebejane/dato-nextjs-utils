@@ -54,10 +54,9 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
 
 
 
-  const nextPage = async () => {
+  const nextPage = useCallback(async () => {
     if (!page)
       return setError(new Error('No page size set!'))
-
 
     const first = page.size
     const skip = page.no * page.size
@@ -79,7 +78,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
       setError(err)
       return page;
     }
-  }
+  }, [page, variables, pageSize, setPage, setError])
 
   const mergeData = (newData, oldData) => {
 
