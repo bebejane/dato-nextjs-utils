@@ -12,7 +12,8 @@ type MarkdownProps = {
   truncate?: number,
   className?: string,
   sentances?: number,
-  scroll?: boolean
+  scroll?: boolean,
+  disableBreaks?: boolean
 }
 
 type AnchorProp = {
@@ -26,7 +27,7 @@ const truncateSentances = (markdown: string, limit: number): string => {
   return sentances.length >= limit ? sentances.slice(0, limit).join(' ') + '...' : markdown
 }
 
-const DatoMarkdown = ({ children, truncate, className, sentances, allowedElements, scroll = true }: MarkdownProps) => {
+const DatoMarkdown = ({ children, truncate, className, sentances, allowedElements, scroll = true, disableBreaks = false }: MarkdownProps) => {
   if (!children)
     return null
 
@@ -34,7 +35,7 @@ const DatoMarkdown = ({ children, truncate, className, sentances, allowedElement
 
   return (
     <ReactMarkdown
-      remarkPlugins={[gfm, remarkBreaks]}
+      remarkPlugins={disableBreaks ? [gfm] : [gfm, remarkBreaks]}
       className={className}
       children={content}
       allowedElements={allowedElements}
