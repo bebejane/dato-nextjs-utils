@@ -1,5 +1,4 @@
 import { TypedDocumentNode } from '@apollo/client/core/core.cjs';
-import { setRevalidateHeaders } from 'next/dist/server/send-payload';
 import { useEffect, useState, useCallback } from "react";
 import { apiQuery } from '../api/index.js';
 
@@ -22,7 +21,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const [data, setData] = useState<T>(initialData)
   const [page, setPage] = useState<Pagination | undefined>(pageSize ? {
     no: 1,
-    count: 0,
+    count: initialData.pagination?.count || 0,
     size: pageSize,
     end: initialData.pagination?.count > 0 ? initialData.pagination?.count <= pageSize : false
   } : undefined)
@@ -39,10 +38,9 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const loadMore = (vars: any) => load(vars)
 
   const load = useCallback((vars?: any) => {
-
     setLoading(true)
 
-    return apiQuery(document, { variables: { ...vars || variables } })
+    return apiQuery(document, { variables: { ...variables, ...vars } })
       .then(res => {
         const d = mergeData(res, data)
         setData(d)
@@ -51,8 +49,6 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
       .finally(() => setLoading(false))
 
   }, [document, variables, data])
-
-
 
   const nextPage = useCallback(async () => {
     if (!page)
@@ -65,8 +61,6 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
       return page
 
     try {
-      console.log('next page', page.no, first, skip);
-
       const d = await load({ ...variables.variables, first, skip })
       const count = d[Object.keys(d).find(k => !isNaN(d[k].count))]?.count || 0;
       const no = page.no + 1
@@ -80,7 +74,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
       setError(err)
       return page;
     }
-  }, [page, variables, pageSize, setPage, setError])
+  }, [page, variables, pageSize, setPage, setError, load])
 
   const mergeData = (newData, oldData) => {
 
