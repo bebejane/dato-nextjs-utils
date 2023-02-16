@@ -46,6 +46,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
       throw 'Payload is empty'
 
     const record = await recordFromPayload(payload)
+    record._payload = payload
 
     callback(record, async (paths) => {
       try {
