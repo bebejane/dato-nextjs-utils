@@ -20,7 +20,7 @@ export const DefaultDatoSEO = (props: DefaultSEOProps) => {
     throw 'Set NEXT_PUBLIC_SITE_URL env variable'
 
   const data = parseProps(props)
-  const titleTemplate = `${props.siteTitle}${data.globalSeo?.titleSuffix ? ` ${data.globalSeo?.titleSuffix}` : ''} %s`
+  const titleTemplate = `${props.siteTitle}${data.globalSeo?.titleSuffix ? ` ${data.globalSeo?.titleSuffix}` : ' —'} %s`
 
   return (
     <DefaultSeo
