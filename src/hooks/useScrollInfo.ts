@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 
 export type ScrollInfo = {
-  isScrolling: boolean, 
+  isScrolling: boolean,
   isPageTop: boolean,
   isPageBottom: boolean,
   isScrolledUp: boolean,
@@ -17,7 +17,7 @@ export default function useScrollInfo(pageBottomLimit = 0) {
 
   const isServer = typeof window === 'undefined'
   const [scrollInfo, setScrollInfo] = useState<ScrollInfo>({
-    isScrolling:false, 
+    isScrolling: false,
     isPageTop: false,
     isPageBottom: false,
     isScrolledUp: true,
@@ -25,13 +25,13 @@ export default function useScrollInfo(pageBottomLimit = 0) {
     scrolledPosition: isServer ? 0 : window.pageYOffset,
     documentHeight: isServer ? 0 : document.documentElement.offsetHeight,
     viewportHeight: isServer ? 0 : window.innerHeight,
-    timer:null,
+    timer: null,
   });
 
   const lastScrollInfo = useRef(scrollInfo);
 
   const handleScroll = useCallback(() => {
-    
+
     clearTimeout(lastScrollInfo.current.timer)
 
     const documentHeight = Math.max(
@@ -63,12 +63,13 @@ export default function useScrollInfo(pageBottomLimit = 0) {
     setScrollInfo(scrollInfo);
     lastScrollInfo.current = {
       ...scrollInfo,
-      timer: setTimeout(() => setScrollInfo({...scrollInfo, isScrolling:false}), 100)
+      timer: setTimeout(() => setScrollInfo({ ...scrollInfo, isScrolling: false }), 100)
     }
-    
+
   }, [isServer, pageBottomLimit]);
 
   useEffect(() => {
+    handleScroll()
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
