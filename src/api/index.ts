@@ -7,7 +7,7 @@ import { gql } from "@apollo/client/core/core.cjs";
 const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
 const GRAPHQL_API_TOKEN = process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN || process.env.GRAPHQL_API_TOKEN
-const GRAPHQL_ENVIRONMENT = process.env.DATOCMS_ENVIRONMENT ?? 'main'
+const GRAPHQL_ENVIRONMENT = process.env.DATOCMS_ENVIRONMENT ?? process.env.NEXT_PUBLIC_DATOCMS_ENVIRONMENT ?? 'main'
 const GRAPHQL_INCLUDE_DRAFTS = process.env.DATOCMS_INCLUDE_DRAFTS ? process.env.DATOCMS_INCLUDE_DRAFTS === 'true' ? true : false : false
 
 const loggingFetch = async (input: RequestInfo, init?: RequestInit): Promise<Response> => {
@@ -87,7 +87,6 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
     throw new Error('No graphql api token exists in .env')
 
   try {
-    client.headers
 
     client.setLink(apiToken ? createLink(preview, apiToken) : preview ? previewLink : link)
 
