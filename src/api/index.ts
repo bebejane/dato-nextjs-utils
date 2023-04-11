@@ -8,6 +8,7 @@ const isServer = typeof window === 'undefined';
 const GRAPHQL_API_ENDPOINT = process.env.GRAPHQL_API_ENDPOINT || process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || `https://graphql.datocms.com`;
 const GRAPHQL_API_TOKEN = process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN || process.env.GRAPHQL_API_TOKEN
 const GRAPHQL_ENVIRONMENT = process.env.DATOCMS_ENVIRONMENT ?? 'main'
+const GRAPHQL_INCLUDE_DRAFTS = process.env.DATOCMS_INCLUDE_DRAFTS ? process.env.DATOCMS_INCLUDE_DRAFTS === 'true' ? true : false : false
 
 const loggingFetch = async (input: RequestInfo, init?: RequestInit): Promise<Response> => {
 
@@ -40,8 +41,7 @@ const createLink = (preview: boolean = false, apiToken) => {
     'X-Exclude-Invalid': true
   }
 
-  if (preview)
-    headers['X-Include-Drafts'] = true
+  headers['X-Include-Drafts'] = preview ? true : GRAPHQL_INCLUDE_DRAFTS
 
   if (GRAPHQL_ENVIRONMENT)
     headers['X-Environment'] = GRAPHQL_ENVIRONMENT
