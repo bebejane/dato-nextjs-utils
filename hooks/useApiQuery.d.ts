@@ -2,6 +2,7 @@ export declare type UseApiQueryProps = {
     variables?: any;
     initialData?: any;
     pageSize?: number;
+    preview?: boolean;
 };
 export declare type Pagination = {
     no: number;
@@ -9,7 +10,7 @@ export declare type Pagination = {
     size: number;
     end: boolean;
 };
-declare const useApiQuery: <T>(document: TypedDocumentNode, { variables, initialData, pageSize }?: UseApiQueryProps) => {
+declare const useApiQuery: <T>(document: TypedDocumentNode, { variables, initialData, pageSize, preview }?: UseApiQueryProps) => {
     data: T;
     error: Error;
     loading: boolean;

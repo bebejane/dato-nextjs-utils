@@ -3,9 +3,10 @@ import { useEffect, useState, useCallback } from "react";
 import { apiQuery } from '../api/index.js';
 
 export type UseApiQueryProps = {
-  variables?: any,
-  initialData?: any,
+  variables?: any
+  initialData?: any
   pageSize?: number
+  preview?: boolean
 }
 
 export type Pagination = {
@@ -15,7 +16,7 @@ export type Pagination = {
   end: boolean
 }
 
-const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, pageSize }: UseApiQueryProps = {}) => {
+const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, pageSize, preview = false }: UseApiQueryProps = {}) => {
 
   const [initial, setInitial] = useState<T>(initialData)
   const [data, setData] = useState<T>(initialData)
@@ -40,7 +41,7 @@ const useApiQuery = <T>(document: TypedDocumentNode, { variables, initialData, p
   const load = useCallback((vars?: any) => {
     setLoading(true)
 
-    return apiQuery(document, { variables: { ...variables, ...vars } })
+    return apiQuery(document, { variables: { ...variables, ...vars }, preview })
       .then(res => {
         const d = mergeData(res, data)
         setData(d)
