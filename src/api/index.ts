@@ -41,7 +41,9 @@ const createLink = (preview: boolean = false, apiToken) => {
     'X-Exclude-Invalid': true
   }
 
-  headers['X-Include-Drafts'] = preview ? true : GRAPHQL_INCLUDE_DRAFTS
+  const includeDrafts = preview || GRAPHQL_INCLUDE_DRAFTS
+  if (includeDrafts)
+    headers['X-Include-Drafts'] = true
 
   if (GRAPHQL_ENVIRONMENT)
     headers['X-Environment'] = GRAPHQL_ENVIRONMENT
