@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next"
 export default function withWebPreviews(generatePreviewUrl: (record: any) => Promise<string>): (req: NextApiRequest, res: NextApiResponse) => void {
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    if (process.env.NEXT_PUBLIC_SITE_URL)
+    if (!process.env.NEXT_PUBLIC_SITE_URL && !process.env.SITE_URL)
       throw new Error('NEXT_PUBLIC_SITE_URL is not set in .env')
 
     if (!process.env.DATOCMS_PREVIEW_SECRET)
@@ -22,10 +22,11 @@ export default function withWebPreviews(generatePreviewUrl: (record: any) => Pro
 
     const path = await generatePreviewUrl(req.body);
     const previewLinks = []
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
 
     if (path) {
-      previewLinks.push({ label: 'Live', url: `${process.env.NEXT_PUBLIC_SITE_URL}${path}` })
-      previewLinks.push({ label: 'Utkast', url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
+      previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
+      previewLinks.push({ label: 'Utkast', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
     }
 
     return res.status(200).json({ previewLinks });
