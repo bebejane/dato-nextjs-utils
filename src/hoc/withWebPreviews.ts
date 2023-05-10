@@ -1,0 +1,33 @@
+import type { NextApiRequest, NextApiResponse } from "next"
+
+export default function withWebPreviews(generatePreviewUrl: (record: any) => Promise<string>): (req: NextApiRequest, res: NextApiResponse) => void {
+
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    if (process.env.NEXT_PUBLIC_SITE_URL)
+      throw new Error('NEXT_PUBLIC_SITE_URL is not set in .env')
+
+    if (!process.env.DATOCMS_PREVIEW_SECRET)
+      throw new Error('DATOCMS_PREVIEW_SECRET is not set in .env')
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Content-Type', 'application/json');
+
+    if (req.method === 'OPTIONS')
+      return res.status(200).send('ok');
+
+    if (!req.body)
+      throw new Error('No body found in request')
+
+    const path = await generatePreviewUrl(req.body);
+    const previewLinks = []
+
+    if (path) {
+      previewLinks.push({ label: 'Live', url: `${process.env.NEXT_PUBLIC_SITE_URL}${path}` })
+      previewLinks.push({ label: 'Utkast', url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
+    }
+
+    return res.status(200).json({ previewLinks });
+  }
+}
