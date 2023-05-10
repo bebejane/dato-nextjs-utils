@@ -18,13 +18,14 @@ export default function withWebPreviews(generatePreviewUrl: (record: any) => Pro
     if (!req.body)
       throw new Error('No body found in request')
 
-    const path = await generatePreviewUrl(req.body);
+    const payload = req.body
+    const path = await generatePreviewUrl(payload);
     const previewLinks = []
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
 
     if (path) {
       previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
-      if (process.env.DATOCMS_PREVIEW_SECRET)
+      if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.status === 'draft')
         previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
     }
 
