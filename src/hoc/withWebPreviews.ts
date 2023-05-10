@@ -27,7 +27,7 @@ export default function withWebPreviews(generatePreviewUrl: (record: any) => Pro
       previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
       console.log(payload.item)
       console.log(payload?.item?.attributes?.status)
-      if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.attributes?.status !== 'published')
+      if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.meta?.status !== 'published')
         previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
     }
 
