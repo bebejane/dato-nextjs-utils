@@ -4,3 +4,4 @@ export { default as withWebPreviews } from './hoc/withWebPreviews.js';
 export { default as withWebPreviewsEdge } from './hoc/withWebPreviewsEdge.js';
 export { default as withRevalidate } from './hoc/withRevalidate.js';
 export { default as withBasicAuth } from './hoc/withBasicAuth.js';
+export { default as withBasicAuthEdge } from './hoc/withBasicAuthEdge.js';
