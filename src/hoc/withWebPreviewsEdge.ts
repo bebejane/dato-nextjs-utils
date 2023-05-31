@@ -25,7 +25,7 @@ export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) =>
 
     const path = await generatePreviewUrl(payload);
     const previewLinks = []
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
+    const baseUrl = path?.startsWith('https://') ? '' : process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
 
     if (path) {
       previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
