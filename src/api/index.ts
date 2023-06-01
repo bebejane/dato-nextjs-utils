@@ -114,6 +114,63 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   }
 }
 
+export const apiQueryAll = async (doc: TypedDocumentNode, opt: ApiQueryOptions = {}, options = { batchSize: 50, delay: 100 }): Promise<any> => {
+
+  const results = {}
+  let size = 100;
+  let skip = 0;
+  const res = await apiQuery(doc, { variables: { ...opt.variables, first: size, skip } });
+
+  if (res.pagination?.count === undefined)
+    throw new Error('Not a pagable query')
+
+  const { count } = res.pagination
+
+  const mergeProps = (res) => {
+    const props = Object.keys(res);
+
+    for (let i = 0; i < props.length; i++) {
+      const k = props[i]
+      const el = res[props[i]];
+      if (Array.isArray(el)) {
+        results[k] = !results[k] ? el : results[k].concat(el)
+      } else
+        results[k] = el;
+    }
+  }
+
+  const isRejected = (input: PromiseSettledResult<unknown>): input is PromiseRejectedResult =>
+    input.status === 'rejected'
+
+  const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfilledResult<T> =>
+    input.status === 'fulfilled'
+
+  mergeProps(res)
+
+  let reqs = []
+  for (let skip = size; skip < count; skip += size) {
+    if (reqs.length < options.batchSize && skip + size < count)
+      reqs.push(apiQuery(doc, { variables: { ...opt.variables, first: size, skip } }))
+    else {
+      reqs.push(apiQuery(doc, { variables: { ...opt.variables, first: size, skip } }))
+
+      const data = await Promise.allSettled(reqs)
+      const error = data.find(isRejected)?.reason
+
+      if (error)
+        throw new Error(error)
+
+      for (let x = 0; x < data.length; x++) {
+        //@ts-ignore
+        mergeProps(data[x].value);
+      }
+      await new Promise(r => setTimeout(r, options.delay))
+      reqs = []
+    }
+  }
+  return results
+}
+
 export const SEOQuery = (model: string, id?: string): TypedDocumentNode => {
   const q = `query GetSEO{
     seo: ${model} ${id ? `( filter: { id: { eq: "${id}" } })` : ''} {
