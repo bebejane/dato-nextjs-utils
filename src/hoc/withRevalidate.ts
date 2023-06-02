@@ -37,6 +37,11 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
 
+    if (req.method === 'GET' && req.query?.ping) {
+      console.log('ping revalidate')
+      return res.status(200).send('pong')
+    }
+
     if (!basicAuth(req))
       return res.status(401).send('Access denied')
 
