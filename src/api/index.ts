@@ -38,7 +38,7 @@ const linkConfig = {
 const createLink = (preview: boolean = false, apiToken) => {
   const headers = {
     'Authorization': `Bearer ${apiToken}`,
-    'X-Exclude-Invalid': true
+    'X-Exclude-Invalid': 'true'
   }
 
   const includeDrafts = preview || GRAPHQL_INCLUDE_DRAFTS
