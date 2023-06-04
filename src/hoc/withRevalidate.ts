@@ -3,7 +3,11 @@ import { buildClient } from '@datocms/cma-client';
 
 export const basicAuth = (req: NextApiRequest) => {
 
+  if (!process.env.BASIC_AUTH_USER || !process.env.BASIC_AUTH_PASSWORD)
+    throw new Error('BASIC_AUTH_USER or BASIC_AUTH_PASSWORD not set in .env')
+
   const basicAuth = req.headers.authorization
+
   if (!basicAuth)
     return true;
 
