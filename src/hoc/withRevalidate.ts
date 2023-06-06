@@ -66,7 +66,8 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
         await Promise.all(paths.map(p => res.revalidate(p)))
         return res.json({ revalidated: true, paths })
       } catch (err) {
-        console.error(err)
+        //console.error(err)
+        console.log('error when revalidating')
         return res.json({ revalidated: false, err })
       }
     })
