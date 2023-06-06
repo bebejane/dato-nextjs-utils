@@ -2,6 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function withPreview(req: NextApiRequest, res: NextApiResponse) {
 
+  if (req.method === 'GET' && req.query?.ping)
+    return res.status(200).send('pong')
+
   if (req.query.secret !== process.env.DATOCMS_PREVIEW_SECRET || !req.query.slug)
     return res.status(401).json({ message: 'Invalid token' })
 
