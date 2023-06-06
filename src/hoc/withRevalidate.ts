@@ -26,8 +26,9 @@ const recordFromPayload = async (payload: any): Promise<any> => {
   const client = buildClient({ apiToken: process.env.GRAPHQL_API_TOKEN || process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN, requestTimeout: 3000 })
   const models = await client.itemTypes.list()
   const model = models.find(m => m.id === modelId)
-  const records = await client.items.list({ filter: { type: model.api_key, fields: { id: { eq: payload.id } } } })
-  const record = records[0]
+  //const records = await client.items.list({ filter: { type: model.api_key, fields: { id: { eq: payload.id } } } })
+  const record = await client.items.find(payload.id, { version: 'current' })
+  //const record = records[0]
 
   if (!record)
     throw `No record found with modelId: ${modelId} (${model.api_key})`
