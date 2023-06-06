@@ -19,6 +19,7 @@ export const basicAuth = (req: NextApiRequest) => {
 const recordFromPayload = async (payload: any): Promise<any> => {
 
   const modelId = payload?.relationships?.item_type?.data?.id
+  const eventType = payload?.event_type
 
   if (!modelId)
     throw 'Model id not found in payload!'
@@ -29,11 +30,13 @@ const recordFromPayload = async (payload: any): Promise<any> => {
     client.items.find(payload.id, { version: 'current' })
   ])
 
-  if (!record)
+  if (!record && eventType !== 'delete')
     throw `No record found with modelId: ${modelId} (${model.api_key})`
 
-  console.log('revalidate', model.api_key)
-  return { ...record, model }
+  if (eventType === 'delete')
+    return { ...payload.entity.attributes, model }
+  else
+    return { ...record, model }
 
 }
 
