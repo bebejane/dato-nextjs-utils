@@ -18,20 +18,19 @@ export const basicAuth = (req: NextApiRequest) => {
 
 const recordFromPayload = async (payload: any): Promise<any> => {
 
-  const modelId = payload?.relationships?.item_type?.data?.id
+  const modelId = payload?.entity?.relationships?.item_type?.data?.id
   const eventType = payload?.event_type
 
   if (!modelId)
     throw 'Model id not found in payload!'
 
-
   const client = buildClient({ apiToken: process.env.GRAPHQL_API_TOKEN || process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN, requestTimeout: 3000 })
   const model = await client.itemTypes.find(modelId)
 
   if (eventType === 'delete')
-    return { ...payload.entity.attributes, model }
+    return { id: payload.entity.id, ...payload.entity.attributes, model }
 
-  const record = await client.items.find(payload.id, { version: 'current' })
+  const record = await client.items.find(payload.entity.id, { version: 'current' })
 
   if (!record && eventType !== 'delete')
     throw `No record found with modelId: ${modelId} (${model.api_key})`
@@ -49,13 +48,13 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
     if (!basicAuth(req))
       return res.status(401).send('Access denied')
 
-    const payload = req.body?.entity;
+    const payload = req.body;
 
-    if (!payload)
+    if (!payload || !payload.entity)
       throw 'Payload is empty'
 
     const record = await recordFromPayload(payload)
-    record._payload = payload
+    record._payload = payload.entity
 
     callback(record, async (paths) => {
       try {
