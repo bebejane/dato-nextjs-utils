@@ -35,10 +35,10 @@ const recordFromPayload = async (payload: any): Promise<any> => {
 
     return { ...record, model }
   } catch (err) {
-    console.log(err.response.status)
-    const notFound = err.response?.status === 404;
 
-    if (notFound)
+    const isDeleted = err.response?.status === 404 && (eventType === 'delete' || eventType === 'unpublish');
+
+    if (isDeleted)
       return { id: payload.entity.id, ...payload.entity.attributes, model }
     else
       throw err;
