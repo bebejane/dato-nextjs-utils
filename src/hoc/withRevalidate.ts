@@ -24,20 +24,19 @@ const recordFromPayload = async (payload: any): Promise<any> => {
   if (!modelId)
     throw 'Model id not found in payload!'
 
+
   const client = buildClient({ apiToken: process.env.GRAPHQL_API_TOKEN || process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN, requestTimeout: 3000 })
-  const [model, record] = await Promise.all([
-    client.itemTypes.find(modelId),
-    client.items.find(payload.id, { version: 'current' })
-  ])
+  const model = await client.itemTypes.find(modelId)
+
+  if (eventType === 'delete')
+    return { ...payload.entity.attributes, model }
+
+  const record = await client.items.find(payload.id, { version: 'current' })
 
   if (!record && eventType !== 'delete')
     throw `No record found with modelId: ${modelId} (${model.api_key})`
 
-  if (eventType === 'delete')
-    return { ...payload.entity.attributes, model }
-  else
-    return { ...record, model }
-
+  return { ...record, model }
 }
 
 export default function withRevalidate(callback: (record: any, revalidate: (paths: string[]) => Promise<void>) => Promise<void>): (req: NextApiRequest, res: NextApiResponse) => void {
