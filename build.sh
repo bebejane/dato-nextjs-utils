@@ -3,6 +3,7 @@ packages=(
   hooks
   components
   api
+  utils
 )
 
 rm -rf ${packages[@]}
