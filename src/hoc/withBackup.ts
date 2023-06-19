@@ -25,9 +25,8 @@ export default async function withBackup(req: NextApiRequest, res: NextApiRespon
     return res.status(401).send('DATOCMS_API_TOKEN not set in .env')
 
   if (!req.headers.authorization) {
-    console.log(req.url)
-    return await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}${req.url}`, { headers: { authorization: `Basic ${Buffer.from(`${process.env.BASIC_AUTH_USER}:${process.env.BASIC_AUTH_PASSWORD}`).toString('base64')}` } })
-    //return res.status(401).send('No authorization header')
+    const authRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}${req.url}`, { headers: { authorization: `Basic ${Buffer.from(`${process.env.BASIC_AUTH_USER}:${process.env.BASIC_AUTH_PASSWORD}`).toString('base64')}` } })
+    return res.status(authRes.status).send(await authRes.text())
   }
 
   if (!basicAuth(req))
