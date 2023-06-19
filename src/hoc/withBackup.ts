@@ -19,12 +19,13 @@ const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiRespons
   const today = new Date().toISOString().replace('T', '-').replaceAll(':', '-').replace('Z', '').split('.')[0]
   const name = `auto-backup-${today}`
 
-  console.log('Last backup was: ', backups[0]?.id, 'Max backups:', maxBackups)
+  console.log('Last backup was: ', backups[0]?.id ?? 'none')
+  console.log('Max backups: ', maxBackups)
   console.log('Creating backup...', name)
 
   try {
 
-    const backup = await client.environments.fork(process.env.DATOCMS_ENVIRONMENT, { id: name }, {
+    await client.environments.fork(process.env.DATOCMS_ENVIRONMENT, { id: name }, {
       immediate_return: false,
       fast: false,
       force: true
@@ -34,7 +35,7 @@ const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiRespons
       console.log('Deleting old backup...', backups[i].id)
       await client.environments.destroy(backups[i].id)
     }
-    console.log('Backup done!', backup.id)
+    console.log('Backup done!')
   } catch (e) {
     console.error(e)
     return res.status(401).send(`Backup failed: ${e.message}`)
