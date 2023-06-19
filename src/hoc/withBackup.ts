@@ -35,7 +35,7 @@ export default async function withBackup(req: NextApiRequest, res: NextApiRespon
   const today = new Date().toISOString().replace('T', '-').replaceAll(':', '-').replace('Z', '').split('.')[0]
   const name = `auto-backup-${today}`
 
-  console.log('Last backup was: ', backups[0]?.id)
+  console.log('Last backup was: ', backups[0]?.id, 'Max backups:', maxBackups)
   console.log('Creating backup...', name)
 
   try {
