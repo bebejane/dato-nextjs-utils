@@ -19,8 +19,10 @@ export const basicAuth = (req: NextApiRequest) => {
 
 export default async function withBackup(req: NextApiRequest, res: NextApiResponse) {
 
-  if (req.method === 'GET' && req.query?.ping)
-    return res.status(200).send('pong')
+  if (!process.env.DATOCMS_ENVIRONMENT)
+    return res.status(401).send('DATOCMS_ENVIRONMENT not set in .env')
+  if (!process.env.DATOCMS_API_TOKEN)
+    return res.status(401).send('DATOCMS_API_TOKEN not set in .env')
 
   if (!req.headers.authorization) {
     console.log(req.url)
@@ -29,11 +31,7 @@ export default async function withBackup(req: NextApiRequest, res: NextApiRespon
   }
 
   if (!basicAuth(req))
-    return res.status(401).send('Not authorized')
-  if (!process.env.DATOCMS_ENVIRONMENT)
-    return res.status(401).send('DATOCMS_ENVIRONMENT not set in .env')
-  if (!process.env.DATOCMS_API_TOKEN)
-    return res.status(401).send('DATOCMS_API_TOKEN not set in .env')
+    return res.status(401).send('Access denied')
 
   const maxBackups = req.query.max ? parseInt(req.query.max as string) : 1
   const backupPrefix = 'auto-backup-'
