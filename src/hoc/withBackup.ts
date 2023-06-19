@@ -4,9 +4,6 @@ import { buildClient } from '@datocms/cma-client';
 
 const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiResponse) => {
 
-  if (req.method === 'GET' && req.query?.ping)
-    return res.status(200).send('pong')
-
   if (!process.env.DATOCMS_ENVIRONMENT)
     return res.status(401).send('DATOCMS_ENVIRONMENT not set in .env')
   if (!process.env.DATOCMS_API_TOKEN)
@@ -36,12 +33,13 @@ const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiRespons
       await client.environments.destroy(backups[i].id)
     }
     console.log('Backup done!')
+    return res.status(200).send(`Backup done ${process.env.DATOCMS_ENVIRONMENT} > ${name}`)
   } catch (e) {
     console.error(e)
     return res.status(401).send(`Backup failed: ${e.message}`)
   }
 
-  return res.status(200).send('OK')
+
 
 })
 
