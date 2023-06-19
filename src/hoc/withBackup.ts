@@ -26,7 +26,7 @@ export default async function withBackup(req: NextApiRequest, res: NextApiRespon
 
   if (!req.headers.authorization) {
     console.log(req.url)
-    return await fetch(req.url, { headers: { authorization: `Basic ${Buffer.from(`${process.env.BASIC_AUTH_USER}:${process.env.BASIC_AUTH_PASSWORD}`).toString('base64')}` } })
+    return await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}${req.url}`, { headers: { authorization: `Basic ${Buffer.from(`${process.env.BASIC_AUTH_USER}:${process.env.BASIC_AUTH_PASSWORD}`).toString('base64')}` } })
     //return res.status(401).send('No authorization header')
   }
 
