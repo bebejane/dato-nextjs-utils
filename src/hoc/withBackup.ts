@@ -2,38 +2,15 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import withBasicAuth from './withBasicAuth.js';
 import { buildClient } from '@datocms/cma-client';
 
-export const basicAuth = (req: NextApiRequest) => {
+const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiResponse) => {
 
-  if (!process.env.BASIC_AUTH_USER || !process.env.BASIC_AUTH_PASSWORD)
-    throw new Error('BASIC_AUTH_USER or BASIC_AUTH_PASSWORD not set in .env')
+  if (req.method === 'GET' && req.query?.ping)
+    return res.status(200).send('pong')
 
-  const basicAuth = req.headers.authorization
-
-  if (!basicAuth)
-    return true;
-
-  const auth = basicAuth.split(' ')[1]
-  const [user, pwd] = Buffer.from(auth, 'base64').toString().split(':')
-  return user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD
-}
-
-export default async function withBackup(req: NextApiRequest, res: NextApiResponse) {
-
-
-  if (!process.env.NEXT_PUBLIC_SITE_URL)
-    return res.status(401).send('NEXT_PUBLIC_SITE_URL not set in .env')
   if (!process.env.DATOCMS_ENVIRONMENT)
     return res.status(401).send('DATOCMS_ENVIRONMENT not set in .env')
   if (!process.env.DATOCMS_API_TOKEN)
     return res.status(401).send('DATOCMS_API_TOKEN not set in .env')
-
-  if (!req.headers.authorization) {
-    const authRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}${req.url}`, { headers: { authorization: `Basic ${Buffer.from(`${process.env.BASIC_AUTH_USER}:${process.env.BASIC_AUTH_PASSWORD}`).toString('base64')}` } })
-    return res.status(authRes.status).send(await authRes.text())
-  }
-
-  if (!basicAuth(req))
-    return res.status(401).send('Access denied')
 
   const maxBackups = req.query.max ? parseInt(req.query.max as string) : 1
   const backupPrefix = 'auto-backup-'
@@ -66,4 +43,6 @@ export default async function withBackup(req: NextApiRequest, res: NextApiRespon
 
   return res.status(200).send('OK')
 
-}
+})
+
+export default withBackup
