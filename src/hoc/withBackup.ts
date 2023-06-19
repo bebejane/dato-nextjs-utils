@@ -19,6 +19,9 @@ export const basicAuth = (req: NextApiRequest) => {
 
 export default async function withBackup(req: NextApiRequest, res: NextApiResponse) {
 
+
+  if (!process.env.NEXT_PUBLIC_SITE_URL)
+    return res.status(401).send('NEXT_PUBLIC_SITE_URL not set in .env')
   if (!process.env.DATOCMS_ENVIRONMENT)
     return res.status(401).send('DATOCMS_ENVIRONMENT not set in .env')
   if (!process.env.DATOCMS_API_TOKEN)
