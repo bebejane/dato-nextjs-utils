@@ -19,15 +19,23 @@ export default function withWebPreviews(generatePreviewUrl: (record: any) => Pro
       throw new Error('No body found in request')
 
     const payload = req.body
-    const path = await generatePreviewUrl(payload);
     const previewLinks = []
-    const baseUrl = path?.startsWith('https://') ? '' : process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
+    let path = await generatePreviewUrl(payload);
+    let baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
+    const isExternal = path?.startsWith('https://')
+
+    if (isExternal) {
+      const url = new URL(path)
+      baseUrl = url.origin
+      path = url.pathname
+    }
 
     if (path) {
       previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
 
-      if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.meta?.status !== 'published')
+      if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.meta?.status !== 'published') {
         previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
+      }
     }
 
     return res.status(200).json({ previewLinks });
