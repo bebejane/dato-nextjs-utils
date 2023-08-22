@@ -35,7 +35,7 @@ export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) =>
     }
 
     if (path) {
-      previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
+      previewLinks.push({ label: 'Live', url: `${baseUrl}/${path}` })
 
       if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.meta?.status !== 'published') {
         previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
