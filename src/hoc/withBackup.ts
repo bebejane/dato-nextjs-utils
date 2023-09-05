@@ -5,9 +5,9 @@ import { buildClient } from '@datocms/cma-client';
 const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!process.env.DATOCMS_ENVIRONMENT)
-    return res.status(401).send('DATOCMS_ENVIRONMENT not set in .env')
+    return res.status(500).send('DATOCMS_ENVIRONMENT not set in .env')
   if (!process.env.DATOCMS_API_TOKEN)
-    return res.status(401).send('DATOCMS_API_TOKEN not set in .env')
+    return res.status(500).send('DATOCMS_API_TOKEN not set in .env')
 
   const maxBackups = req.query.max ? parseInt(req.query.max as string) : 1
   const backupPrefix = 'auto-backup-'
@@ -36,7 +36,7 @@ const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiRespons
     return res.status(200).send(`Backup done ${process.env.DATOCMS_ENVIRONMENT} > ${name}`)
   } catch (e) {
     console.error(e)
-    return res.status(401).send(`Backup failed: ${e.message}`)
+    return res.status(500).send(`Backup failed: ${e.message}`)
   }
 
 

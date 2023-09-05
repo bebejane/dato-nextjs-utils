@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ApiError } from "@datocms/cma-client";
+import { ApiError, buildClient } from "@datocms/cma-client";
 
 export const isServer = typeof window === 'undefined';
 
