@@ -29,8 +29,12 @@ const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiRespons
     })
 
     for (let i = 0; i < backups.reverse().slice(maxBackups - 1).length; i++) {
-      console.log('Deleting old backup...', backups[i].id)
-      await client.environments.destroy(backups[i].id)
+      try {
+        console.log('Deleting old backup...', backups[i].id)
+        await client.environments.destroy(backups[i].id)
+      } catch (e) {
+        console.error(e)
+      }
     }
     console.log('Backup done!')
     return res.status(200).send(`Backup done ${process.env.DATOCMS_ENVIRONMENT} > ${name}`)
