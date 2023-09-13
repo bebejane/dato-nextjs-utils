@@ -5,6 +5,7 @@ import Link from "next/link.js";
 import truncateMarkdown from 'markdown-truncate'
 import remarkBreaks from 'remark-breaks'
 import type { UrlObject } from 'url';
+import { SpecialComponents } from "react-markdown/lib/ast-to-react.js";
 
 type MarkdownProps = {
   children?: React.ReactNode,
@@ -12,7 +13,7 @@ type MarkdownProps = {
   truncate?: number,
   className?: string,
   sentances?: number,
-  components?: any
+  components?: Partial<Omit<any, keyof SpecialComponents> & SpecialComponents>,
   scroll?: boolean,
   disableBreaks?: boolean
 }
