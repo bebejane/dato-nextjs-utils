@@ -41,11 +41,11 @@ const DatoMarkdown = ({ children, truncate, className, components, sentances, al
       className={className}
       children={content}
       allowedElements={allowedElements}
-      components={components ?? undefined}
+      components={components}
       //@ts-ignore
       components={{
         //@ts-ignore
-        a: ({ children, href }: AnchorProp) => <Link scroll={scroll} href={href}>{children[0]}</Link>
+        a: ({ children, href }: AnchorProp) => <Link scroll={scroll} href={href}>{children[0]}</ Link>
       }}
 
     />
