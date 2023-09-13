@@ -10,9 +10,10 @@ import { SpecialComponents } from "react-markdown/lib/ast-to-react.js";
 type MarkdownProps = {
   children?: React.ReactNode,
   allowedElements?: string[]
-  truncate?: number,
-  className?: string,
-  sentances?: number,
+  truncate?: number
+  className?: string
+  sentances?: number
+  components?: Partial<Omit<any, keyof SpecialComponents> & SpecialComponents>
   scroll?: boolean,
   disableBreaks?: boolean
 }
@@ -28,7 +29,7 @@ const truncateSentances = (markdown: string, limit: number): string => {
   return sentances.length >= limit ? sentances.slice(0, limit).join(' ') + '...' : markdown
 }
 
-const DatoMarkdown = ({ children, truncate, className, sentances, allowedElements, scroll = true, disableBreaks = false }: MarkdownProps) => {
+const DatoMarkdown = ({ children, truncate, className, components, sentances, allowedElements, scroll = true, disableBreaks = false }: MarkdownProps) => {
   if (!children)
     return null
 
@@ -41,11 +42,10 @@ const DatoMarkdown = ({ children, truncate, className, sentances, allowedElement
       children={content}
       allowedElements={allowedElements}
       //@ts-ignore
-      components={{
+      components={components ?? {
         //@ts-ignore
         a: ({ children, href }: AnchorProp) => <Link scroll={scroll} href={href}>{children[0]}</ Link>
       }}
-
     />
   )
 }
