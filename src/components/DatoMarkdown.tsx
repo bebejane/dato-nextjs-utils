@@ -41,7 +41,7 @@ const DatoMarkdown = ({ children, truncate, className, components, sentances, al
       className={className}
       children={content}
       allowedElements={allowedElements}
-      components={components}
+      components={components ?? undefined}
       //@ts-ignore
       components={{
         //@ts-ignore
