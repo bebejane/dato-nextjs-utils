@@ -12,6 +12,7 @@ type MarkdownProps = {
   truncate?: number,
   className?: string,
   sentances?: number,
+  components?: any
   scroll?: boolean,
   disableBreaks?: boolean
 }
@@ -27,7 +28,7 @@ const truncateSentances = (markdown: string, limit: number): string => {
   return sentances.length >= limit ? sentances.slice(0, limit).join(' ') + '...' : markdown
 }
 
-const DatoMarkdown = ({ children, truncate, className, sentances, allowedElements, scroll = true, disableBreaks = false }: MarkdownProps) => {
+const DatoMarkdown = ({ children, truncate, className, components, sentances, allowedElements, scroll = true, disableBreaks = false }: MarkdownProps) => {
   if (!children)
     return null
 
@@ -39,6 +40,7 @@ const DatoMarkdown = ({ children, truncate, className, sentances, allowedElement
       className={className}
       children={content}
       allowedElements={allowedElements}
+      components={components}
       //@ts-ignore
       components={{
         //@ts-ignore
