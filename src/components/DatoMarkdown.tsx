@@ -13,7 +13,6 @@ type MarkdownProps = {
   truncate?: number,
   className?: string,
   sentances?: number,
-  components?: Partial<Omit<any, keyof SpecialComponents> & SpecialComponents>,
   scroll?: boolean,
   disableBreaks?: boolean
 }
