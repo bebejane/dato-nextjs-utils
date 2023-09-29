@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { ApiError, buildClient } from "@datocms/cma-client";
+export { default as cors } from './cors.js'
 
 export const isServer = typeof window === 'undefined';
 

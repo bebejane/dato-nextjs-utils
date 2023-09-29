@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from "next/server.js";
 import cors from '../utils/cors.js'
 
-export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) => Promise<string>): (req: NextRequest, res: NextResponse) => void {
+export type WebPreviewOptions = {
+  links?: PreviewLink[]
+}
+
+export type PreviewLink = {
+  label: string
+  url: string
+}
+
+export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) => Promise<string>, opt?: WebPreviewOptions): (req: NextRequest, res: NextResponse) => void {
 
   const corsOptions = {
     origin: '*',
@@ -40,7 +49,12 @@ export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) =>
       if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.meta?.status !== 'published') {
         previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
       }
+      if (opt.links?.length)
+        previewLinks.push(...opt.links)
     }
+
+    if (opt?.links?.length)
+      previewLinks.push.apply(previewLinks, opt.links)
 
     return cors(
       req,

@@ -1,6 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 
-export default function withWebPreviews(generatePreviewUrl: (record: any) => Promise<string>): (req: NextApiRequest, res: NextApiResponse) => void {
+export type WebPreviewOptions = {
+  links?: PreviewLink[]
+}
+
+export type PreviewLink = {
+  label: string
+  url: string
+}
+
+
+export default function withWebPreviews(generatePreviewUrl: (record: any) => Promise<string>, opt?: WebPreviewOptions): (req: NextApiRequest, res: NextApiResponse) => void {
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -37,6 +47,9 @@ export default function withWebPreviews(generatePreviewUrl: (record: any) => Pro
         previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
       }
     }
+
+    if (opt?.links?.length)
+      previewLinks.push.apply(previewLinks, opt.links)
 
     return res.status(200).json({ previewLinks });
   }
