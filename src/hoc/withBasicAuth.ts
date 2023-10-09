@@ -1,8 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default function withBasicAuth(callback: (req: NextApiRequest, res: NextApiResponse) => void): (req: NextApiRequest, res: NextApiResponse) => void {
+export default function withBasicAuth(callback: (req: NextApiRequest, res: NextApiResponse) => void, options?: { username: string, password: string }): (req: NextApiRequest, res: NextApiResponse) => void {
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
+
+    if (req.method === 'OPTIONS')
+      return callback(req, res)
 
     const basicAuth = req.headers.authorization
 
@@ -14,7 +17,9 @@ export default function withBasicAuth(callback: (req: NextApiRequest, res: NextA
 
     const auth = basicAuth.split(' ')[1]
     const [user, pwd] = Buffer.from(auth, 'base64').toString().split(':')
-    const isAuthorized = user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD
+    const username = options?.username || process.env.BASIC_AUTH_USER
+    const password = options?.password || process.env.BASIC_AUTH_PASSWORD
+    const isAuthorized = user === username && pwd === password
 
     if (!isAuthorized)
       return res.status(401).send('Access denied')
