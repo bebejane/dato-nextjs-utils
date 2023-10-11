@@ -39,7 +39,9 @@ export default function withWebPreviews(generatePreviewUrl: (record: any) => Pro
     if (path) {
       previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
 
-      if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.meta?.status !== 'published') {
+      if (payload?.item?.meta?.status !== 'published') {
+        if (!process.env.DATOCMS_PREVIEW_SECRET)
+          throw new Error('DATOCMS_PREVIEW_SECRET is not set in .env')
         previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
       }
     }
