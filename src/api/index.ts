@@ -114,11 +114,32 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
   }
 }
 
+export const checkIsPaganationQuery = (doc: TypedDocumentNode): boolean => {
+  const operation = doc.definitions.find((d) => d.kind === 'OperationDefinition')
+
+  if (!operation)
+    throw new Error('Not a pagable query. Missing operation definition')
+
+  const { selectionSet, variableDefinitions } = operation as any
+
+  if (!selectionSet.selections.find((s) => s.alias?.value === 'pagination'))
+    throw new Error('Not a pagable query. Missing pagination field')
+  if (!variableDefinitions.find((v) => v.variable.name.value === 'first'))
+    throw new Error('Not a pagable query. Missing $first variable')
+  if (!variableDefinitions.find((v) => v.variable.name.value === 'skip'))
+    throw new Error('Not a pagable query. Missing $skip variable')
+
+  return true
+}
+
 export const apiQueryAll = async (doc: TypedDocumentNode, opt: ApiQueryOptions = {}, options = { batchSize: 50, delay: 100 }): Promise<any> => {
+
+  checkIsPaganationQuery(doc)
 
   const results = {}
   let size = 100;
   let skip = 0;
+
   const res = await apiQuery(doc, { variables: { ...opt.variables, first: size, skip } });
 
   if (res.pagination?.count === undefined)

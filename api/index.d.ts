@@ -7,6 +7,7 @@ export declare type ApiQueryOptions = {
     environment?: string;
 };
 export declare const apiQuery: (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions) => Promise<any>;
+export declare const checkIsPaganationQuery: (doc: TypedDocumentNode) => boolean;
 export declare const apiQueryAll: (doc: TypedDocumentNode, opt?: ApiQueryOptions, options?: {
     batchSize: number;
     delay: number;
