@@ -55,7 +55,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
 
         return res.json({ revalidated: true, paths })
       } catch (err) {
-        console.log('error when revalidating')
+        console.log('Error revalidating', paths)
         console.log(err)
         return res.json({ revalidated: false, err })
       }
