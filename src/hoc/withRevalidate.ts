@@ -30,14 +30,14 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
     if (!payload || !payload.entity)
       throw 'Payload is empty'
 
-    const { entity, related_entities, event_type, meta } = payload
+    const { entity, related_entities, event_type } = payload
     const model = related_entities.find(({ id }) => id === entity.relationships?.item_type?.data?.id)
 
     if (!model)
       throw new Error(`Model not found in payload`)
 
     const record = { ...entity.attributes, model: model.attributes }
-    const delay = new Date().getTime() - new Date(event_type === 'publish' ? meta.published_at : event_type === 'create' ? meta.created_at : meta.updated_at).getTime()
+    const delay = new Date().getTime() - new Date(event_type === 'publish' ? entity.meta.published_at : event_type === 'create' ? entity.meta.created_at : entity.meta.updated_at).getTime()
 
     callback(record, async (paths) => {
       try {
@@ -48,11 +48,11 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
 
         console.log(`revalidate${delay ? ` (${delay}ms)` : ''}`, paths)
 
-        return res.json({ revalidated: true, paths, delay })
+        return res.json({ revalidated: true, paths, delay, event_type })
       } catch (err) {
         console.log('Error revalidating', paths)
-        console.log(err)
-        return res.json({ revalidated: false, err })
+        console.error(err)
+        return res.json({ revalidated: false, err, delay, event_type })
       }
     })
   }
