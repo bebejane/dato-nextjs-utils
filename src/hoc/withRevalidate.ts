@@ -27,7 +27,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
 
     const payload = req.body;
 
-    if (!payload || !payload.entity)
+    if (!payload || !payload?.entity)
       throw 'Payload is empty'
 
     const { entity, related_entities, event_type } = payload
