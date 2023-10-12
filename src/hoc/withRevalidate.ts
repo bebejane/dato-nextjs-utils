@@ -49,6 +49,10 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
           throw 'Nothing to revalidate';
 
         await Promise.all(paths.map(p => res.revalidate(p)))
+
+        const ms = record?.updated_at ? Math.abs(new Date(record.updated_at).getTime() - new Date().getTime()) : null
+        console.log(`revalidate${ms ? ` (${ms}ms)` : ''}`, paths)
+
         return res.json({ revalidated: true, paths })
       } catch (err) {
         console.log('error when revalidating')
