@@ -37,7 +37,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
       throw new Error(`Model not found in payload`)
 
     const record = { ...entity.attributes, model: model.attributes }
-    const delay = new Date().getTime() - new Date(event_type === 'publish' ? entity.meta.published_at : event_type === 'create' ? entity.meta.created_at : entity.meta.updated_at).getTime()
+    const delay = Date.now() - Math.max(new Date(entity.meta.updated_at).getTime(), new Date(entity.meta.published_at).getTime(), new Date(entity.meta.created_at).getTime())
 
     callback(record, async (paths) => {
       try {
