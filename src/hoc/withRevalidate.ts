@@ -15,17 +15,6 @@ export const basicAuth = (req: NextApiRequest) => {
   return user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD
 }
 
-const recordFromPayload = async (payload): Promise<any> => {
-
-  const { entity, related_entities } = payload
-  const model = related_entities.find(({ id }) => id === entity.relationships?.item_type?.data?.id)
-
-  if (!model)
-    throw new Error(`Model not found in payload`)
-
-  return { ...entity.attributes, model: model.attributes }
-}
-
 export default function withRevalidate(callback: (record: any, revalidate: (paths: string[]) => Promise<void>) => Promise<void>): (req: NextApiRequest, res: NextApiResponse) => void {
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
@@ -41,8 +30,14 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
     if (!payload || !payload.entity)
       throw 'Payload is empty'
 
-    const record = await recordFromPayload(payload)
-    const delay = record?.updated_at ? new Date().getTime() - new Date(record.updated_at).getTime() : null
+    const { entity, related_entities, event_type, meta } = payload
+    const model = related_entities.find(({ id }) => id === entity.relationships?.item_type?.data?.id)
+
+    if (!model)
+      throw new Error(`Model not found in payload`)
+
+    const record = { ...entity.attributes, model: model.attributes }
+    const delay = new Date().getTime() - new Date(event_type === 'publish' ? meta.published_at : event_type === 'create' ? meta.created_at : meta.updated_at).getTime()
 
     callback(record, async (paths) => {
       try {
@@ -53,7 +48,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
 
         console.log(`revalidate${delay ? ` (${delay}ms)` : ''}`, paths)
 
-        return res.json({ revalidated: true, paths })
+        return res.json({ revalidated: true, paths, delay })
       } catch (err) {
         console.log('Error revalidating', paths)
         console.log(err)
