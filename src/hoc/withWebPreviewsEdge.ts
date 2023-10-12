@@ -20,6 +20,9 @@ export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) =>
     if (!process.env.NEXT_PUBLIC_SITE_URL && !process.env.SITE_URL)
       throw new Error('NEXT_PUBLIC_SITE_URL is not set in .env')
 
+    if (!process.env.DATOCMS_PREVIEW_SECRET)
+      throw new Error('DATOCMS_PREVIEW_SECRET is not set in .env')
+
     if (req.method === 'OPTIONS')
       return cors(req, new Response('ok', { status: 200 }), corsOptions)
 
@@ -41,10 +44,7 @@ export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) =>
 
     if (path) {
       previewLinks.push({ label: 'Live', url: `${baseUrl}${path}` })
-
-      if (process.env.DATOCMS_PREVIEW_SECRET && payload?.item?.meta?.status !== 'published') {
-        previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
-      }
+      previewLinks.push({ label: 'Preview', url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}` })
     }
 
     return cors(
