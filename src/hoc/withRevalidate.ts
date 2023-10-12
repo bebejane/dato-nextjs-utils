@@ -42,17 +42,16 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
       throw 'Payload is empty'
 
     const record = await recordFromPayload(payload)
+    const delay = record?.updated_at ? new Date().getTime() - new Date(record.updated_at).getTime() : null
 
     callback(record, async (paths) => {
       try {
         if (!paths || !paths.length)
           throw 'Nothing to revalidate';
 
-        const ms = record?.updated_at ? new Date().getTime() - new Date(record.updated_at).getTime() : null
-
         await Promise.all(paths.map(p => res.revalidate(p)))
 
-        console.log(`revalidate${ms ? ` (${ms}ms)` : ''}`, paths)
+        console.log(`revalidate${delay ? ` (${delay}ms)` : ''}`, paths)
 
         return res.json({ revalidated: true, paths })
       } catch (err) {
