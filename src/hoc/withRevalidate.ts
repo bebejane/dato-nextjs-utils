@@ -25,6 +25,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
     if (!basicAuth(req))
       return res.status(401).send('Access denied')
 
+    console.log(Object.keys(req.headers))
     const payload = req.body;
 
     if (!payload || !payload.entity)
