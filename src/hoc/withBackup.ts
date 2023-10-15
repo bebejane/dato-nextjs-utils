@@ -24,7 +24,7 @@ const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiRespons
 
     await client.environments.fork(process.env.DATOCMS_ENVIRONMENT, { id: name }, {
       immediate_return: false,
-      fast: false,
+      fast: true,
       force: true
     })
 
@@ -43,8 +43,7 @@ const withBackup = withBasicAuth(async (req: NextApiRequest, res: NextApiRespons
     return res.status(500).send(`Backup failed: ${e.message}`)
   }
 
-
-
 })
 
 export default withBackup
+export const maxDuration = 30;
