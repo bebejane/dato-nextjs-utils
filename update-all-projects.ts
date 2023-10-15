@@ -17,8 +17,13 @@ const update = async () => {
 
     const name = path.dirname(packages[i]).split('/').pop()
     const cwd = path.dirname(packages[i])
+    const currentVersion = JSON.parse(fs.readFileSync(`${cwd}/node_modules/dato-nextjs-utils/package.json`, 'utf8')).version
     const isClean = execSync(`git status --porcelain --untracked-files=no`, { cwd }).length === 0
 
+    if (isClean && currentVersion === version) {
+      console.log(`skipping: (already up to date) ${name} `)
+      continue;
+    }
     if (isClean) {
       console.log(`updating package: ${name}`)
       execSync(`pnpm i dato-nextjs-utils`, { cwd })
@@ -26,7 +31,7 @@ const update = async () => {
       execSync(`git add . && git commit -m \"update dato-nextjs-utils@${version}\" && git push`, { cwd })
     }
     else
-      console.log(`skipping: ${name} (not clean)`)
+      console.log(`skipping: (not clean) ${name} `)
   }
 }
 
