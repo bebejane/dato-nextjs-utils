@@ -2,6 +2,8 @@ import { useQuerySubscription } from 'react-datocms';
 import * as listen from 'datocms-listen'
 import { DocumentNode } from '@apollo/client/core/core.cjs';
 
+const GRAPHQL_API_TOKEN = process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN;
+
 export type LivePreviewOptions = {
   preview: boolean
   variables?: any
@@ -17,7 +19,7 @@ export default function useLivePreview(
   }) {
 
   const { data, error, status } = useQuerySubscription({
-    token: options.apiToken || process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN,
+    token: options.apiToken || GRAPHQL_API_TOKEN,
     query: query,
     initialData,
     variables: options.variables,
