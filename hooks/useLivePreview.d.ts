@@ -1,3 +1,4 @@
+import * as listen from 'datocms-listen';
 import { DocumentNode } from '@apollo/client/core/core.cjs';
 export declare type LivePreviewOptions = {
     preview: boolean;
@@ -6,6 +7,6 @@ export declare type LivePreviewOptions = {
 };
 export default function useLivePreview(query: DocumentNode, initialData?: any, options?: LivePreviewOptions): {
     data: any;
-    error: import("datocms-listen").ChannelErrorData;
-    status: import("datocms-listen").ConnectionStatus;
+    error: listen.ChannelErrorData;
+    status: listen.ConnectionStatus;
 };
