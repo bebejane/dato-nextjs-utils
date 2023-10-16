@@ -1,6 +1,6 @@
 {
 	"name": "dato-nextjs-utils",
-	"version": "1.0.369",
+	"version": "1.0.370",
 	"description": "Utils for Bebe",
 	"types": "./index.d.ts",
 	"type": "module",
@@ -76,7 +76,7 @@
 		"next": ">= 12",
 		"next-seo": ">= 5.5.0",
 		"react": ">= 16",
-		"react-datocms": ">= 4",
+		"react-datocms": ">= 3",
 		"datocms-listen": ">=0.1.5",
 		"react-dom": ">= 16"
 	}
