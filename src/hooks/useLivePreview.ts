@@ -1,4 +1,5 @@
 import { useQuerySubscription } from 'react-datocms';
+import { subscribeToQuery } from 'datocms-listen'
 import { DocumentNode } from '@apollo/client/core/core.cjs';
 
 export type LivePreviewOptions = {
