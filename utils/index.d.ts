@@ -3,6 +3,7 @@ export { default as cors } from './cors.js';
 export declare const isServer: boolean;
 export declare const chunkArray: (array: any[] | ReactNode[], chunkSize: number) => any[];
 export declare const parseDatoError: (err: any) => string;
+export declare const parseDatoCMSApiError: (e: any) => string;
 export declare const isEmpty: (obj: any) => boolean;
 export declare const capitalize: (str: string, lower?: boolean) => string;
 export declare const sleep: (ms: number) => Promise<unknown>;

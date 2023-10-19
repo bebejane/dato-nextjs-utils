@@ -16,6 +16,25 @@ export const parseDatoError = (err: any): string => {
   return errors.map(({ code, field, message, detailsCode, errors }) => `${code} ${field ? `(${field})` : ''} ${message || ''} ${detailsCode || ''} ${errors ? `(${errors})` : ''}`).join('\n')
 }
 
+export const parseDatoCMSApiError = (e: any): string => {
+
+  if (e instanceof ApiError === false)
+    return typeof e === 'string' ? e : e.message || e.toString()
+
+  const err = new ApiError(e)
+  return err.errors.map(e => {
+    let code = `${e.attributes.code}`
+    let errors = []
+
+    if (Array.isArray(e.attributes.details?.errors)) {
+      e.attributes.details.errors.forEach(e => {
+        errors.push(Object.keys(e).map(k => `${k}: ${e[k]}`).join(', '))
+      })
+    }
+    return `${code}${errors.length ? `: ${errors.join('. ')}` : ''}`
+  }).join('\n')
+}
+
 export const isEmpty = (obj: any) => Object.keys(obj).filter(k => obj[k] !== undefined).length === 0
 
 export const capitalize = (str: string, lower: boolean = false) => {
