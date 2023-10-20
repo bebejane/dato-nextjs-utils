@@ -48,7 +48,7 @@ export async function testApiEndpoints() {
     try {
       r.revalidate = await testRevalidateEndpoint(models[i], client)
     } catch (e) {
-
+      console.log(e)
     }
     results.push(r)
   }
