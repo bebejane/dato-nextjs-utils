@@ -1,6 +1,6 @@
 {
 	"name": "dato-nextjs-utils",
-	"version": "1.0.374",
+	"version": "1.0.375",
 	"description": "Utils for Bebe",
 	"types": "./index.d.ts",
 	"type": "module",
@@ -71,7 +71,7 @@
 	"peerDependencies": {
 		"@apollo/client": ">=3",
 		"@datocms/cma-client": ">= 1.1.0",
-		"@datocms/cma-client-node": ">=2.0.0",
+		"@datocms/cma-client-node": ">= 2.0.0",
 		"@types/node": ">= 16",
 		"@types/react": ">= 17",
 		"@types/react-dom": ">= 17",
