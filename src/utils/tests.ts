@@ -46,10 +46,7 @@ export async function testApiEndpoints() {
     }
 
     try {
-      const revalidate = await testRevalidateEndpoint(models[i], client)
-      if (revalidate.revalidated && revalidate.paths.length > 0)
-        r.revalidate = revalidate
-
+      r.revalidate = await testRevalidateEndpoint(models[i], client)
     } catch (e) {
 
     }

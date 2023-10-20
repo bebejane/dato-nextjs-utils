@@ -43,8 +43,11 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
 
     callback(record, async (paths) => {
       try {
-        if (!paths || !paths.length)
-          throw 'Nothing to revalidate';
+        if (!paths)
+          throw 'Nothing to revalidate. Paths empty';
+
+        if (paths.length === 0)
+          return res.json({ revalidated: false, paths, delay, event_type })
 
         await Promise.all(paths.map(p => res.revalidate(p)))
 
