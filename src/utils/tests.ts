@@ -1,4 +1,4 @@
-import { Client, buildClient } from '@datocms/cma-client-node';
+import { Client, buildClient } from '@datocms/cma-client';
 import { ItemType } from '@datocms/cma-client/dist/types/generated/SimpleSchemaTypes.js';
 
 const baseApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api`
