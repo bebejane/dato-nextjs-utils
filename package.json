@@ -1,6 +1,6 @@
 {
 	"name": "dato-nextjs-utils",
-	"version": "1.0.375",
+	"version": "1.0.376",
 	"description": "Utils for Bebe",
 	"types": "./index.d.ts",
 	"type": "module",
