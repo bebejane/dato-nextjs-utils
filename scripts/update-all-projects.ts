@@ -26,7 +26,7 @@ const update = async () => {
     }
     if (isClean) {
       console.log(`updating package: ${name}`)
-      execSync(`pnpm i dato-nextjs-utils`, { cwd })
+      execSync(`pnpm up dato-nextjs-utils`, { cwd })
       console.log(`git push: ${name}`)
       execSync(`git add . && git commit -m \"update dato-nextjs-utils@${version}\" && git push`, { cwd })
     }
