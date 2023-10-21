@@ -31,28 +31,24 @@ export async function testApiEndpoints() {
   const itemTypes = await client.itemTypes.list()
   const models = itemTypes.filter(t => !t.modular_block)
 
-  const results = []
+  const results = await Promise.all(models.map(async (model, i) => {
 
-  for (let i = 0; i < models.length; i++) {
-    const r: TestResult = { model: models[i].api_key }
+    const r: TestResult = { model: model.api_key }
     console.log(`${i + 1}/${models.length}: ${r.model}`)
 
     try {
-      const previews = await testWebPreviewsEndpoint(models[i], client)
+      const previews = await testWebPreviewsEndpoint(model, client)
       if (previews.length > 0) {
         r.previews = previews
       }
-    } catch (e) {
-      //console.log(e)
-    }
+    } catch (e) { }
 
     try {
-      r.revalidate = await testRevalidateEndpoint(models[i], client)
-    } catch (e) {
-      //console.log(e)
-    }
-    results.push(r)
-  }
+      r.revalidate = await testRevalidateEndpoint(model, client)
+    } catch (e) { }
+
+    return r
+  }))
 
   return results.sort((a, b) => a.model > b.model ? 1 : -1)
 }
