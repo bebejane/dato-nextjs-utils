@@ -99,7 +99,7 @@ const testWebPreviewsEndpoint = async (itemType: ItemType, client: Client): Prom
 const testRevalidateEndpoint = async (itemType: ItemType, client: Client): Promise<RevalidateResponse> => {
 
   const item = (await client.items.list({ filter: { type: itemType.api_key } }))[0]
-  const res = await fetch(`${baseApiUrl}/api/revalidate`, {
+  const res = await fetch(`${baseApiUrl}/revalidate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -138,7 +138,6 @@ const testRevalidateEndpoint = async (itemType: ItemType, client: Client): Promi
     const json = await res.json()
     return json
   } else {
-    console.log(res.status, res.statusText, `${baseApiUrl}/api/revalidate`)
     throw new Error(`Error testing revalidate endpoint: ${res.status} ${res.statusText}`)
   }
 }
