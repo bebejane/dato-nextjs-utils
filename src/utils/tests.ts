@@ -42,7 +42,7 @@ export async function testApiEndpoints() {
         r.previews = previews
       }
     } catch (e) {
-
+      console.log(e)
     }
 
     try {
