@@ -138,7 +138,7 @@ const testRevalidateEndpoint = async (itemType: ItemType, client: Client): Promi
     const json = await res.json()
     return json
   } else {
-    console.log(res.status, res.statusText)
+    console.log(res.status, res.statusText, `${baseApiUrl}/api/revalidate`)
     throw new Error(`Error testing revalidate endpoint: ${res.status} ${res.statusText}`)
   }
 }
