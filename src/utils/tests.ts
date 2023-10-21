@@ -35,6 +35,7 @@ export async function testApiEndpoints() {
 
   for (let i = 0; i < models.length; i++) {
     const r: TestResult = { model: models[i].api_key }
+    console.log(`${i + 1}/${models.length}: ${r.model}`)
 
     try {
       const previews = await testWebPreviewsEndpoint(models[i], client)
@@ -42,13 +43,13 @@ export async function testApiEndpoints() {
         r.previews = previews
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
 
     try {
       r.revalidate = await testRevalidateEndpoint(models[i], client)
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
     results.push(r)
   }
@@ -62,9 +63,9 @@ export const testResultsToString = (results: TestResult[]) => {
   }).join('\n')
 
   const previews = results.filter(r => r.previews).map(r => r.model).sort((a, b) => a > b ? 1 : -1).join('\n')
-  const revalidate = results.filter(r => r.revalidate).map(r => r.model).sort((a, b) => a > b ? 1 : -1).join('\n')
+  const revalidate = results.filter(r => r.revalidate?.paths.length).map(r => r.model).sort((a, b) => a > b ? 1 : -1).join('\n')
   const nopreviews = results.filter(r => !r.previews).map(r => r.model).sort((a, b) => a > b ? 1 : -1).join('\n')
-  const norevalidate = results.filter(r => !r.revalidate).map(r => r.model).sort((a, b) => a > b ? 1 : -1).join('\n')
+  const norevalidate = results.filter(r => !r.revalidate || !r.revalidate?.paths.length).map(r => r.model).sort((a, b) => a > b ? 1 : -1).join('\n')
 
   return `WEB PREVIEWS\n${previews}\n\nNO WEB PREVIEWS:\n${nopreviews}\n\nREVALIDATE\n${revalidate}\n\nNO REVALIDATE\n${norevalidate}`
 
@@ -103,7 +104,7 @@ export const testResultsToHtml = (results: TestResult[]) => {
               <tr title="Web Previews\n-----------\n${r.previews?.map(p => `${p.label}: ${p.url}`).join('\n')}\n\nRevalidate\n-----------\n${r.revalidate?.paths?.join('\n')}">
                 <td>${r.model}</td>
                 <td class="center">${r.previews ? 'x' : '-'}</td>
-                <td class="center">${r.revalidate ? 'x' : '-'}</td>
+                <td class="center">${r.revalidate?.paths?.length > 0 ? 'x' : '-'}</td>
               </tr>
             `).join('')}
           </tbody>
