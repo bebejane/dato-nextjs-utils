@@ -83,6 +83,9 @@ export const testResultsToHtml = (results: TestResult[]) => {
             padding: 5px;
             text-align:left;
           }
+          .center{
+            text-align:center;
+          }
         </style>
       </head>
       <body>
@@ -91,16 +94,22 @@ export const testResultsToHtml = (results: TestResult[]) => {
           <thead>
             <tr>
               <th>Model</th>
-              <th>Previews</th>
+              <th>Web Previews</th>
               <th>Revalidate</th>
             </tr>
           </thead>
           <tbody>
             ${results.map(r => `
-              <tr>
+              <tr title="
+                Web Previews\n
+                ${r.previews?.map(p => `${p.label}: ${p.url}`).join('\n')}
+                \n\n
+                Revalidate\n
+                ${r.revalidate?.paths.join('\n')}
+              ">
                 <td>${r.model}</td>
-                <td>${r.previews ? 'x' : '-'}</td>
-                <td>${r.revalidate ? 'x' : '-'}</td>
+                <td class="center">${r.previews ? 'x' : '-'}</td>
+                <td class="center">${r.revalidate ? 'x' : '-'}</td>
               </tr>
             `).join('')}
           </tbody>
