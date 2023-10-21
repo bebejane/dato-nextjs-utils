@@ -73,6 +73,18 @@ export const testResultsToString = (results: TestResult[]) => {
 export const testResultsToHtml = (results: TestResult[]) => {
   return `
     <html>
+      <head>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 400px;
+          }
+          th, td {
+            padding: 5px;
+            text-align:left;
+          }
+        </style>
+      </head>
       <body>
         <pre>
         <table>
