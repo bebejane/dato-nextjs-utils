@@ -70,6 +70,34 @@ export const testResultsToString = (results: TestResult[]) => {
 
 }
 
+export const testResultsToHtml = (results: TestResult[]) => {
+  return `
+    <html>
+      <body>
+        <pre>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Previews</th>
+              <th>Revalidate</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${results.map(r => `
+              <tr>
+                <td>${r.model}</td>
+                <td>${r.previews ? 'x' : '-'}</td>
+                <td>${r.revalidate ? 'x' : '-'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </pre>
+      </body>
+    </html>
+  `
+}
+
 const testWebPreviewsEndpoint = async (itemType: ItemType, client: Client): Promise<PreviewLink[]> => {
 
   const item = (await client.items.list({ filter: { type: itemType.api_key } }))[0]

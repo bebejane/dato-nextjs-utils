@@ -15,4 +15,5 @@ declare type TestResult = {
 };
 export declare function testApiEndpoints(): Promise<any[]>;
 export declare const testResultsToString: (results: TestResult[]) => string;
+export declare const testResultsToHtml: (results: TestResult[]) => string;
 export {};
