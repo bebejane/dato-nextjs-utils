@@ -54,7 +54,7 @@ export async function testApiEndpoints() {
     results.push(r)
   }
 
-  return results
+  return results.sort((a, b) => a.model > b.model ? 1 : -1)
 }
 
 export const testResultsToString = (results: TestResult[]) => {
@@ -101,10 +101,10 @@ export const testResultsToHtml = (results: TestResult[]) => {
           </thead>
           <tbody>
             ${results.map(r => `
-              <tr title="Web Previews\n-----------\n${r.previews?.map(p => `${p.label}: ${p.url}`).join('\n')}\n\nRevalidate\n-----------\n${r.revalidate?.paths?.join('\n')}">
+              <tr title="Web Previews\n-----------\n${!r.previews ? '' : r.previews?.map(p => `${p.label}: ${p.url}`).join('\n')}\n\nRevalidate\n-----------\n${!r.revalidate ? '' : r.revalidate?.paths?.join('\n')}">
                 <td>${r.model}</td>
                 <td class="center">${r.previews ? 'x' : '-'}</td>
-                <td class="center">${r.revalidate ? 'x' : '-'}</td>
+                <td class="center">${r.revalidate?.revalidated ? 'x' : '-'}</td>
               </tr>
             `).join('')}
           </tbody>
