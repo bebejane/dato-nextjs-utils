@@ -30,13 +30,13 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
     const payload = req.body;
 
     if (!payload || !payload?.entity)
-      throw 'Payload is empty'
+      return res.status(400).send('Payload empty or missing entity')
 
     const { entity, related_entities, event_type } = payload
     const model = related_entities.find(({ id }) => id === entity.relationships?.item_type?.data?.id)
 
     if (!model)
-      throw new Error(`Model not found in payload`)
+      return res.status(400).send('Model not found in payload')
 
     const record = { ...entity.attributes, model: model.attributes }
     const delay = Date.now() - Math.max(new Date(entity.meta.updated_at).getTime(), new Date(entity.meta.published_at).getTime(), new Date(entity.meta.created_at).getTime())
@@ -44,20 +44,20 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
     callback(record, async (paths) => {
       try {
         if (!paths)
-          throw 'Nothing to revalidate. Paths empty';
+          return res.status(400).send('Nothing to revalidate. Paths empty')
 
         if (paths.length === 0)
-          return res.json({ revalidated: false, paths, delay, event_type })
+          return res.status(200).json({ revalidated: false, paths, delay, event_type })
 
         await Promise.all(paths.map(p => res.revalidate(p)))
 
         console.log(`revalidate${delay && !['unpublish', 'delete'].includes(event_type) ? ` (${delay}ms)` : ''} ${event_type}`, paths)
 
-        return res.json({ revalidated: true, paths, delay, event_type })
+        return res.status(200).json({ revalidated: true, paths, delay, event_type })
       } catch (err) {
         console.log('Error revalidating', paths)
         console.error(err)
-        return res.json({ revalidated: false, err, delay, event_type })
+        return res.status(200).json({ revalidated: false, err, delay, event_type })
       }
     })
   }
