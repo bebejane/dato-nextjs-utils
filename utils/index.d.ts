@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 export { default as cors } from './cors.js';
-export { testApiEndpoints } from './tests.js';
 export declare const isServer: boolean;
 export declare const chunkArray: (array: any[] | ReactNode[], chunkSize: number) => any[];
 export declare const parseDatoError: (err: any) => string;
