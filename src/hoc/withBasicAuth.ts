@@ -21,8 +21,10 @@ export default function withBasicAuth(callback: (req: NextApiRequest, res: NextA
     const password = options?.password || process.env.BASIC_AUTH_PASSWORD
     const isAuthorized = user === username && pwd === password
 
-    if (!isAuthorized)
+    if (!isAuthorized) {
+      res.setHeader('WWW-Authenticate', 'Basic realm="NodeJs"')
       return res.status(401).send('Access denied')
+    }
 
     return callback(req, res)
   }
