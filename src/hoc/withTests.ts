@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import withBasicAuth from './withBasicAuth.js';
 import { Client, buildClient } from '@datocms/cma-client';
 import { ItemType } from '@datocms/cma-client/dist/types/generated/SimpleSchemaTypes.js';
 
-export default async function withTests(req: NextApiRequest, res: NextApiResponse) {
+const withTests = withBasicAuth(async (req: NextApiRequest, res: NextApiResponse) => {
   const results = await testApiEndpoints()
   if (req.query?.json)
     res.status(200).json(results)
@@ -10,7 +11,9 @@ export default async function withTests(req: NextApiRequest, res: NextApiRespons
     res.status(200).send(testResultsToString(results))
   else
     res.status(200).send(testResultsToHtml(results))
-}
+})
+
+export default withTests
 
 const baseApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api`
 

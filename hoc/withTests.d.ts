@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-export default function withTests(req: NextApiRequest, res: NextApiResponse): Promise<void>;
+declare const withTests: (req: NextApiRequest, res: NextApiResponse<any>) => void;
+export default withTests;
 declare type PreviewLink = {
     label: string;
     url: string;
@@ -18,4 +19,3 @@ declare type TestResult = {
 export declare function testApiEndpoints(): Promise<TestResult[]>;
 export declare const testResultsToString: (results: TestResult[]) => string;
 export declare const testResultsToHtml: (results: TestResult[]) => string;
-export {};
