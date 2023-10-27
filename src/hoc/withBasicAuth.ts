@@ -4,10 +4,10 @@ export default function withBasicAuth(callback: (req: NextApiRequest, res: NextA
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (process.env.NODE_ENV === 'development')
+    if (req.method === 'OPTIONS')
       return callback(req, res)
 
-    if (req.method === 'OPTIONS')
+    if (process.env.NODE_ENV === 'development')
       return callback(req, res)
 
     const basicAuth = req.headers.authorization
