@@ -4,12 +4,12 @@ import { ItemType } from '@datocms/cma-client/dist/types/generated/SimpleSchemaT
 
 export default async function withTests(req: NextApiRequest, res: NextApiResponse) {
   const results = await testApiEndpoints()
-  if (req.query?.html)
-    res.status(200).send(testResultsToHtml(results))
-  else if (req.query?.json)
+  if (req.query?.json)
     res.status(200).json(results)
-  else
+  else if (req.query.text)
     res.status(200).send(testResultsToString(results))
+  else
+    res.status(200).send(testResultsToHtml(results))
 }
 
 const baseApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api`
@@ -94,6 +94,9 @@ export const testResultsToHtml = (results: TestResult[]) => {
           .center{
             text-align:center;
           }
+          .error{
+            color:red;
+          }
         </style>
       </head>
       <body>
@@ -108,7 +111,10 @@ export const testResultsToHtml = (results: TestResult[]) => {
           </thead>
           <tbody>
             ${results.map(r => `
-              <tr title="Web Previews\n-----------\n${!r.previews ? '' : r.previews?.map(p => `${p.label}: ${p.url}`).join('\n')}\n\nRevalidate\n-----------\n${!r.revalidate ? '' : r.revalidate?.paths?.join('\n')}">
+              <tr 
+                title="Web Previews\n-----------\n${!r.previews ? '' : r.previews?.map(p => `${p.label}: ${p.url}`).join('\n')}\n\nRevalidate\n-----------\n${!r.revalidate ? '' : r.revalidate?.paths?.join('\n')}"
+                class="${!r.previews || !r.revalidate?.revalidated ? 'error' : ''}"
+              >
                 <td>${r.model}</td>
                 <td class="center">${r.previews ? 'x' : '-'}</td>
                 <td class="center">${r.revalidate?.revalidated ? 'x' : '-'}</td>
