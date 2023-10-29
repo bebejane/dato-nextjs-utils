@@ -6,7 +6,7 @@ export type PreviewLink = {
   url: string
 }
 
-export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) => Promise<string>): (req: NextRequest, res: NextResponse) => void {
+export default function withWebPreviewsEdge(generatePreviewUrl: (record: any) => Promise<string | null>): (req: NextRequest, res: NextResponse) => void {
 
   const corsOptions = {
     origin: '*',

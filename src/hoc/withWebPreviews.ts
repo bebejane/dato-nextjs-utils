@@ -6,7 +6,7 @@ export type PreviewLink = {
 }
 
 
-export default function withWebPreviews(generatePreviewUrl: (record: any) => Promise<string>): (req: NextApiRequest, res: NextApiResponse) => void {
+export default function withWebPreviews(generatePreviewUrl: (record: any) => Promise<string | null>): (req: NextApiRequest, res: NextApiResponse) => void {
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
 
