@@ -4,6 +4,9 @@ export default function withVercelCronAuth(callback: (req: NextApiRequest, res: 
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
 
+    if (!process.env.CRON_SECRET)
+      throw new Error('CRON_SECRET not set in .env')
+
     if (req.headers?.authorization === `Basic ${process.env.CRON_SECRET}`)
       return callback(req, res)
     else
