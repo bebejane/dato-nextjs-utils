@@ -1,17 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import withVercelCronAuth from './withVercelCronAuth.js';
+import type { NextRequest, NextResponse } from 'next/server.js'
+import withVercelCronAuthEdge from './withVercelCronAuthEdge.js';
 import { buildClient } from '@datocms/cma-client-browser';
 
-const withBackupEdge = withVercelCronAuth(async (req: NextApiRequest, res: NextApiResponse) => {
+const withBackupEdge = withVercelCronAuthEdge(async (req: NextRequest, res: NextResponse) => {
 
   if (!process.env.DATOCMS_ENVIRONMENT)
-    return res.status(500).send('DATOCMS_ENVIRONMENT not set in .env')
+    throw new Error('DATOCMS_ENVIRONMENT not set in .env')
   if (!process.env.DATOCMS_API_TOKEN)
-    return res.status(500).send('DATOCMS_API_TOKEN not set in .env')
+    throw new Error('DATOCMS_API_TOKEN not set in .env')
 
   try {
-
-    const maxBackups = req.query.max ? parseInt(req.query.max as string) : 1
+    const params = new URLSearchParams(req.nextUrl.searchParams)
+    const maxBackups = params.get('max') ? parseInt(params.get('max') as string) : 1
     const backupPrefix = 'auto-backup-'
     const client = buildClient({ environment: process.env.DATOCMS_ENVIRONMENT, apiToken: process.env.DATOCMS_API_TOKEN, requestTimeout: 3000 })
     const backups = (await client.environments.list()).filter(e => e.id.startsWith('auto-backup') && e.meta.primary === false).sort((a, b) => a.id.replace(backupPrefix, '') > b.id.replace(backupPrefix, '') ? -1 : 1)
@@ -37,12 +37,11 @@ const withBackupEdge = withVercelCronAuth(async (req: NextApiRequest, res: NextA
       }
     }
     console.log('Backup done!')
-    return res.status(200).send(`Backup done ${process.env.DATOCMS_ENVIRONMENT} > ${name}`)
+    return new Response(`Backup done ${process.env.DATOCMS_ENVIRONMENT} > ${name}`, { status: 200 })
   } catch (e) {
     console.log(e)
-    return res.status(500).send(`Backup failed: ${e.message}`)
+    return new Response(`Backup failed: ${e.message}`, { status: 500 })
   }
-
 })
 
 export default withBackupEdge
