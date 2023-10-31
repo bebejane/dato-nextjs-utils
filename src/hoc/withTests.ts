@@ -1,17 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import withBasicAuth from './withBasicAuth.js';
+import withCors from './withCors.js';
 import { Client, buildClient } from '@datocms/cma-client';
 import { ItemType } from '@datocms/cma-client/dist/types/generated/SimpleSchemaTypes.js';
 
-const withTests = withBasicAuth(async (req: NextApiRequest, res: NextApiResponse) => {
-
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Content-Type', 'application/json');
-
-  if (req.method === 'OPTIONS')
-    return res.status(200).send('ok');
+const withTests = withCors(withBasicAuth(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const results = await testApiEndpoints()
 
@@ -21,7 +14,7 @@ const withTests = withBasicAuth(async (req: NextApiRequest, res: NextApiResponse
     res.status(200).send(testResultsToString(results))
   else
     res.status(200).send(testResultsToHtml(results))
-})
+}))
 
 export default withTests
 
