@@ -4,7 +4,17 @@ import { Client, buildClient } from '@datocms/cma-client';
 import { ItemType } from '@datocms/cma-client/dist/types/generated/SimpleSchemaTypes.js';
 
 const withTests = withBasicAuth(async (req: NextApiRequest, res: NextApiResponse) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Content-Type', 'application/json');
+
+  if (req.method === 'OPTIONS')
+    return res.status(200).send('ok');
+
   const results = await testApiEndpoints()
+
   if (req.query?.json)
     res.status(200).json(results)
   else if (req.query.text)
