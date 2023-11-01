@@ -6,7 +6,6 @@ export default function withCors(callback: (req: NextApiRequest, res: NextApiRes
     res.setHeader('Access-Control-Allow-Origin', options?.origin || '*');
     res.setHeader('Access-Control-Allow-Methods', options?.methods?.join(',') || 'POST,GET,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Content-Type', 'application/json');
 
     if (req.method === 'OPTIONS')
       return res.status(200).send('ok');
