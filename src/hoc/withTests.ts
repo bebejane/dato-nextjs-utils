@@ -8,12 +8,16 @@ const withTests = withCors(withBasicAuth(async (req: NextApiRequest, res: NextAp
 
   const results = await testApiEndpoints()
 
-  if (req.query?.json)
+  if (req.query?.json) {
+    res.setHeader('Content-Type', 'application/json')
     res.status(200).json(results)
-  else if (req.query.text)
+  } else if (req.query.text) {
+    res.setHeader('Content-Type', 'text/plain')
     res.status(200).send(testResultsToString(results))
-  else
+  } else {
+    res.setHeader('Content-Type', 'text/html')
     res.status(200).send(testResultsToHtml(results))
+  }
 }))
 
 export default withTests
