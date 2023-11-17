@@ -23,7 +23,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
 
     const record = { id: entity.id, ...entity.attributes, model: model.attributes }
     const delay = Date.now() - Math.max(new Date(entity.meta.updated_at).getTime(), new Date(entity.meta.published_at).getTime(), new Date(entity.meta.created_at).getTime())
-    console.log(record)
+
     callback(record, async (paths) => {
       try {
         if (!paths)
