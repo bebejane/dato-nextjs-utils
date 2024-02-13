@@ -39,6 +39,7 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
           } catch (err) {
             console.log('Error revalidating', path)
             //console.error(err)
+            throw err
           }
 
         }
