@@ -9,6 +9,7 @@ const packages = globSync(`${basePath}/**/package.json`, { maxDepth: 3, ignore: 
 
 console.log(`running updates for version ${version}`)
 
+
 const update = async () => {
   for (let i = 0; i < packages.length; i++) {
     const pckg = JSON.parse(fs.readFileSync(packages[i], 'utf8'))
@@ -26,7 +27,8 @@ const update = async () => {
     }
     if (isClean) {
       console.log(`updating package: ${name}`)
-      execSync(`pnpm up dato-nextjs-utils`, { cwd })
+      execSync(`pnpm un dato-nextjs-utils`, { cwd })
+      execSync(`pnpm i github:bebejane/dato-nextjs-utils`, { cwd })
       console.log(`git push: ${name}`)
       execSync(`git add . && git commit -m \"update dato-nextjs-utils@${version}\" && git push`, { cwd })
     }
