@@ -33,17 +33,14 @@ export default function withRevalidate(callback: (record: any, revalidate: (path
           return res.status(200).json({ revalidated: false, paths, delay, event_type })
 
         for (const path of paths) {
-          console.log('revalidate', path)
           try {
             await res.revalidate(path)
           } catch (err) {
+            console.error(err)
             console.log('Error revalidating', path)
-            //console.error(err)
             throw err
           }
-
         }
-        //await Promise.all(paths.map(p => res.revalidate(p)))
 
         console.log(`revalidate${delay && !['unpublish', 'delete'].includes(event_type) ? ` (${delay}ms)` : ''} ${event_type}`, paths)
 
