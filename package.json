@@ -1,6 +1,6 @@
 {
 	"name": "dato-nextjs-utils",
-	"version": "1.0.424",
+	"version": "1.0.425",
 	"description": "Utils for Bebe",
 	"types": "./index.d.ts",
 	"type": "module",
@@ -40,7 +40,7 @@
 		"deploy": "npm version patch --force && npm run build && git add . && git commit -m \"updatez\" && git push",
 		"build": "bash build.sh",
 		"dev": "microbundle watch",
-		"update-all": "tsx ./scripts/update-all-projects.ts"
+		"update-all": "tsx ./update-all-projects.ts"
 	},
 	"author": "Bebe Jane",
 	"license": "ISC",
