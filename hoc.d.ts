@@ -9,4 +9,5 @@ export { default as withBasicAuthEdge } from './hoc/withBasicAuthEdge.js';
 export { default as withFavicon } from './hoc/withFavicon.js';
 export { default as withTests } from './hoc/withTests.js';
 export { default as withVercelCronAuth } from './hoc/withVercelCronAuth.js';
+export { default as withVercelCronAuthEdge } from './hoc/withVercelCronAuthEdge.js';
 export { default as withBackupEdge } from './hoc/withBackupEdge.js';
