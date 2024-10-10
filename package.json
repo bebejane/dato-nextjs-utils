@@ -1,6 +1,6 @@
 {
 	"name": "dato-nextjs-utils",
-	"version": "1.0.428",
+	"version": "1.0.429",
 	"description": "Utils for Bebe",
 	"types": "./index.d.ts",
 	"type": "module",
@@ -37,7 +37,7 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"deploy": "npm version patch --force && npm run build && git add . && git commit -m \"updatez\" && git push",
+		"pub": "npm version patch --force && npm run build && git add . && git commit -m \"updatez\" && git push",
 		"build": "bash build.sh",
 		"dev": "microbundle watch",
 		"update-all": "tsx ./update-all-projects.ts"
