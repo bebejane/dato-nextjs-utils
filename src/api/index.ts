@@ -35,10 +35,10 @@ const linkConfig = {
   batchInterval: 50
 }
 
-const createLink = (preview: boolean = false, apiToken) => {
+const createLink = (preview: boolean = false, apiToken: string, excludeInvalid: boolean = true) => {
   const headers = {
     'Authorization': `Bearer ${apiToken}`,
-    'X-Exclude-Invalid': 'true'
+    'X-Exclude-Invalid': excludeInvalid ? 'true' : 'false'
   }
 
   const includeDrafts = preview || GRAPHQL_INCLUDE_DRAFTS
@@ -74,11 +74,12 @@ export type ApiQueryOptions = {
   preview?: boolean,
   apiToken?: string,
   environment?: string
+  excludeInvalid?: boolean
 }
 
 export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions): Promise<any> => {
 
-  const { variables, preview = false, apiToken } = options || {}
+  const { variables, preview = false, apiToken, excludeInvalid = true } = options || {}
 
   if (query === null)
     throw new Error('Invalid query! Query is empty')
@@ -88,7 +89,7 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
 
   try {
 
-    client.setLink(apiToken ? createLink(preview, apiToken) : preview ? previewLink : link)
+    client.setLink(apiToken ? createLink(preview, apiToken, excludeInvalid) : preview ? previewLink : link)
 
     const batch = (Array.isArray(query) ? query : [query]).map((q, idx) => {
       const vars = Array.isArray(variables) && variables.length > idx - 1 ? variables[idx] : variables || {}
@@ -115,6 +116,7 @@ export const apiQuery = async (query: TypedDocumentNode | TypedDocumentNode[], o
 }
 
 export const checkIsPaganationQuery = (doc: TypedDocumentNode): boolean => {
+  //@ts-ignore
   const operation = doc.definitions.find((d) => d.kind === 'OperationDefinition')
 
   if (!operation)

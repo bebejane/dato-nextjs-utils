@@ -5,6 +5,7 @@ export declare type ApiQueryOptions = {
     preview?: boolean;
     apiToken?: string;
     environment?: string;
+    excludeInvalid?: boolean;
 };
 export declare const apiQuery: (query: TypedDocumentNode | TypedDocumentNode[], options?: ApiQueryOptions) => Promise<any>;
 export declare const checkIsPaganationQuery: (doc: TypedDocumentNode) => boolean;
