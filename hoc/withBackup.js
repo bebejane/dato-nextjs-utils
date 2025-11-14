@@ -1,5 +1,6 @@
 import withBasicAuth from './withBasicAuth.js';
 import { buildClient } from '@datocms/cma-client';
+import { sleep } from '../utils/index.js';
 const withBackup = withBasicAuth(async (req, res) => {
     if (!process.env.DATOCMS_ENVIRONMENT)
         return res.status(500).send('DATOCMS_ENVIRONMENT not set in .env');
@@ -24,17 +25,18 @@ const withBackup = withBasicAuth(async (req, res) => {
         for (let i = 0; i < backups.reverse().slice(maxBackups - 1).length; i++) {
             try {
                 console.log('Deleting old backup...', backups[i].id);
-                await client.environments.destroy(backups[i].id);
+                client.environments.destroy(backups[i].id);
             }
             catch (e) {
                 console.error(e);
             }
         }
         await client.environments.fork(process.env.DATOCMS_ENVIRONMENT, { id: name }, {
-            immediate_return: false,
+            immediate_return: true,
             fast: true,
             force: true,
         });
+        await sleep(50);
         console.log('Backup done!');
         return res.status(200).send(`Backup done ${process.env.DATOCMS_ENVIRONMENT} > ${name}`);
     }
