@@ -1,6 +1,6 @@
 {
 	"name": "dato-nextjs-utils",
-	"version": "1.0.447",
+	"version": "1.0.446",
 	"description": "Utils for Bebe",
 	"types": "./index.d.ts",
 	"type": "module",
@@ -38,7 +38,7 @@
 		"build": "node ./clean.js && npm run tsc && npm run postbuild",
 		"dev": "microbundle watch",
 		"tsc": "tsc -p tsconfig.json",
-		"postbuild": "rsync -a build/* ./ && rm -rf build",
+		"postbuild": "rsync -a ./build/* ./",
 		"update-all": "tsx ./update-all-projects.ts"
 	},
 	"author": "Bebe Jane",
